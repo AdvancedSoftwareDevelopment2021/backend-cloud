@@ -4,5 +4,5 @@ import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfig
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EdgeInfoDao implements JpaRepositoriesAutoConfiguration {
+public interface EdgeInfoDao implements MongoRepository<> {
 }
