@@ -1,8 +1,6 @@
 package ist.sjtu.edu.cn.ecssbackendcloud.dao;
 
-import com.sun.javafx.geom.Edge;
-import ist.sjtu.edu.cn.ecssbackendcloud.dto.EdgeInfoDto;
-import org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration;
+import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

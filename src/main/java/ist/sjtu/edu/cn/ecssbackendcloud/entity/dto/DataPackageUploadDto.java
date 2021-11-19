@@ -1,4 +1,4 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.dto;
+package ist.sjtu.edu.cn.ecssbackendcloud.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

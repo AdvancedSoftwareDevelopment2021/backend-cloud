@@ -1,8 +1,6 @@
 package ist.sjtu.edu.cn.ecssbackendcloud.service;
 
-import ist.sjtu.edu.cn.ecssbackendcloud.dto.EdgeInfoDto;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
 
 import java.util.List;
 
