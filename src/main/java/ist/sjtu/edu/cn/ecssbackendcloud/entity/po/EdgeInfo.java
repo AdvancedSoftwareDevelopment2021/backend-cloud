@@ -10,4 +10,6 @@ public class EdgeInfo {
 
     @Id
     private String id;
+
+    private String date;
 }
