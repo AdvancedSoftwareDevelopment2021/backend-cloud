@@ -5,8 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collation = "EdgeInfo")
-public class EdgeInfo {
+@Document(collation = "EdgeInfoDO")
+public class EdgeInfoPO {
 
     @Id
     private String id;
