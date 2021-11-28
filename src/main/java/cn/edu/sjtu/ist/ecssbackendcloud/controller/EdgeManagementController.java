@@ -20,13 +20,13 @@ public class EdgeManagementController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEdgeInfo(@PathVariable String edgeId) {
-        return new ResponseEntity<>(edgeManagementService.deleteEdgeInfoById(edgeId), HttpStatus.OK);
+    public ResponseEntity<?> deleteEdgeInfo(@PathVariable String id) {
+        return new ResponseEntity<>(edgeManagementService.deleteEdgeInfoById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEdgeInfo(@PathVariable String edgeId, @RequestBody EdgeInfoDto edgeInfoDto) {
-        return new ResponseEntity<>(edgeManagementService.updateEdgeInfoById(edgeId, edgeInfoDto), HttpStatus.OK);
+    public ResponseEntity<?> updateEdgeInfo(@PathVariable String id, @RequestBody EdgeInfoDto edgeInfoDto) {
+        return new ResponseEntity<>(edgeManagementService.updateEdgeInfoById(id, edgeInfoDto), HttpStatus.OK);
     }
 
     @GetMapping("/list")
@@ -35,13 +35,14 @@ public class EdgeManagementController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEdgeInfo(@PathVariable String edgeId) {
-        return new ResponseEntity<>(edgeManagementService.getEdgeInfoById(edgeId), HttpStatus.OK);
+    public ResponseEntity<?> getEdgeInfo(@PathVariable String id) {
+        System.out.println("test");
+        return new ResponseEntity<>(edgeManagementService.getEdgeInfoById(id), HttpStatus.OK);
     }
 
     @GetMapping("/ping/{id}")
-    public ResponseEntity<?> pingEdge(@PathVariable String edgeId) {
-        return new ResponseEntity<>(edgeManagementService.pingEdge(edgeId), HttpStatus.OK);
+    public ResponseEntity<?> pingEdge(@PathVariable String id) {
+        return new ResponseEntity<>(edgeManagementService.pingEdge(id), HttpStatus.OK);
     }
 
 }

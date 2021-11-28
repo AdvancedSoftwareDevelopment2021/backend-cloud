@@ -58,6 +58,9 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
 
     @Override
     public Response deleteEdgeInfoById(String EdgeId) {
+        if (edgeInfoDao.findEdgeInfoPOById(EdgeId) == null) {
+            return new Response(200, "删除 edge info id=" + EdgeId + "失败，不存在该边缘端节点", null);
+        }
         edgeInfoDao.deleteEdgeInfoPOById(EdgeId);
         return new Response(200, "删除 edge info id=" + EdgeId + "成功", null);
     }
@@ -86,6 +89,7 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
         if (existEdgeInfoPO != null) {
             EdgeInfoPO newEdgeInfoPO = edgeInfoUtil.convertDtoToPo(edgeInfoDto, existEdgeInfoPO.getRegisterTimestamp());
             newEdgeInfoPO.setId(edgeId);
+            newEdgeInfoPO.setStatus("未连接");
             edgeInfoDao.save(newEdgeInfoPO);
             return new Response(200, "边缘端id=" + edgeId + "信息修改成功", null);
         } else {
@@ -98,12 +102,14 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost httpPost = new HttpPost(edgeInfoPO.getUrl());
+        String edgeAPI = "edge/";
+        HttpPost httpPost = new HttpPost(edgeInfoPO.getUrl() + edgeAPI);
         PingInfoRequest pingInfoRequest = edgeInfoUtil.createPingBody(edgeInfoPO);
         String jsonString = JSON.toJSONString(pingInfoRequest);
         StringEntity entity = new StringEntity(jsonString, "UTF-8");
         httpPost.setEntity(entity);
         httpPost.setHeader("Content-Type", "application/json;charset=utf8");
+        System.out.println(httpPost);
 
         CloseableHttpResponse response = null;
         try {
