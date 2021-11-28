@@ -8,7 +8,7 @@
         <version>2.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>ist.sjtu.edu.cn</groupId>
+    <groupId>cn.edu.sjtu.ist</groupId>
     <artifactId>ECSS-Backend-Cloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>backend-cloud</name>
@@ -23,24 +23,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
-            <version>2.0.4.RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
