@@ -25,7 +25,7 @@ public class EdgeInfoUtil {
     public PingInfoRequest createPingBody(EdgeInfoPO edgeInfoPO) {
         PingInfoRequest pingInfoRequest = new PingInfoRequest();
         pingInfoRequest.setId(edgeInfoPO.getId());
-        pingInfoRequest.setUrl("http://localhost:8080/dataPackage");
+        pingInfoRequest.setUrl("http://localhost:8080");
         pingInfoRequest.setTimeUnit(edgeInfoPO.getTimeUnit());
         pingInfoRequest.setInterval(edgeInfoPO.getInterval());
         return pingInfoRequest;
