@@ -13,16 +13,10 @@ import java.util.Date;
  */
 @Component
 public class DataPackageUtil {
-    public DataPackage convertDTO2Domain(DataPackageDTO dto) {
-        DataPackage res = new DataPackage();
-        res.setEdgeId(dto.getEdgeId());
-        res.setTimestamp(dto.getTimestamp() == null ? new Date() : dto.getTimestamp());
-        return res;
-    }
-
     public DataPackageDTO convertDomain2DTO(DataPackage domain) {
         DataPackageDTO res = new DataPackageDTO();
         res.setId(domain.getId());
+        res.setName(domain.getName());
         res.setEdgeId(domain.getEdgeId());
         res.setTimestamp(domain.getTimestamp() == null ? new Date() : domain.getTimestamp());
         return res;
@@ -31,8 +25,12 @@ public class DataPackageUtil {
     public DataPackage convertPO2Domain(DataPackagePO po) {
         DataPackage res = new DataPackage();
         res.setId(po.getId());
+        res.setName(po.getName());
         res.setEdgeId(po.getEdgeId());
-        res.setDataPackageFile(po.getDataPackageFile());
+        res.setContentType(po.getContentType());
+        res.setSize(po.getSize());
+        res.setMd5(po.getMd5());
+        res.setContent(po.getContent());
         res.setTimestamp(po.getTimestamp() == null ? new Date() : po.getTimestamp());
         return res;
     }
@@ -40,8 +38,12 @@ public class DataPackageUtil {
     public DataPackagePO convertDomain2PO(DataPackage domain) {
         DataPackagePO res = new DataPackagePO();
         res.setId(domain.getId());
+        res.setName(domain.getName());
         res.setEdgeId(domain.getEdgeId());
-        res.setDataPackageFile(domain.getDataPackageFile());
+        res.setContentType(domain.getContentType());
+        res.setSize(domain.getSize());
+        res.setMd5(domain.getMd5());
+        res.setContent(domain.getContent());
         res.setTimestamp(domain.getTimestamp() == null ? new Date() : domain.getTimestamp());
         return res;
     }

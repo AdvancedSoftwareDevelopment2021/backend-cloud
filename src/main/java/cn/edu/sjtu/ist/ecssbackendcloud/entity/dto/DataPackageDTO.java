@@ -1,8 +1,10 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.Binary;
 
 import java.util.Date;
 
@@ -11,13 +13,12 @@ import java.util.Date;
 @NoArgsConstructor
 public class DataPackageDTO {
 
+
     private String id;
 
-    private String filename;
+    private String name;
 
     private String edgeId;
-
-    private String edgeName;
 
     private Date timestamp;
 

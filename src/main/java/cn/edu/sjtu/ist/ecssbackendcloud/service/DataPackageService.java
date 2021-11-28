@@ -1,12 +1,12 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
 
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface DataPackageService {
 
-    Response receiveDataPackage(String edgeId, MultipartFile file);
+    Response receiveDataPackage(DataPackage dataPackage);
 
     Response getDataPackageByEdgeId(String edgeId);
 

@@ -25,10 +25,7 @@ public class DataPackageServiceImpl implements DataPackageService {
     private DataPackageDao dataPackageDao;
 
     @Override
-    public Response receiveDataPackage(String edgeId, MultipartFile file) {
-        DataPackage dataPackage = new DataPackage();
-        dataPackage.setDataPackageFile(file);
-        dataPackage.setEdgeId(edgeId);
+    public Response receiveDataPackage(DataPackage dataPackage) {
         dataPackageDao.createDataPackage(dataPackage);
         return new Response(200, "OK", "接收成功");
     }
@@ -40,7 +37,6 @@ public class DataPackageServiceImpl implements DataPackageService {
         for(DataPackage dataPackage: dataPackageList){
             DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
             // TODO dataPackageDTO 的 edge的名称
-            dataPackageDTO.setFilename(dataPackage.getDataPackageFile().getName());
             dataPackageDTOList.add(dataPackageDTO);
         }
         return new Response(200, "OK", dataPackageDTOList);
@@ -53,7 +49,6 @@ public class DataPackageServiceImpl implements DataPackageService {
         for(DataPackage dataPackage: dataPackageList){
             DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
             // TODO dataPackageDTO 的 edge的名称
-            dataPackageDTO.setFilename(dataPackage.getDataPackageFile().getName());
             dataPackageDTOList.add(dataPackageDTO);
         }
         return new Response(200, "OK", dataPackageDTOList);
@@ -64,7 +59,6 @@ public class DataPackageServiceImpl implements DataPackageService {
         DataPackage dataPackage = dataPackageDao.findDataPackageById(id);
         DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
         // TODO dataPackageDTO 的 edge的名称
-        dataPackageDTO.setFilename(dataPackage.getDataPackageFile().getName());
         return new Response(200, "OK", dataPackageDTO);
     }
 }
