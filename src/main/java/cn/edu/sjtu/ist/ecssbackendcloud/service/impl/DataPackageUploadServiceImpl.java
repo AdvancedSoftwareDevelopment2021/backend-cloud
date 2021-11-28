@@ -1,6 +1,6 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.service.impl;
+package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
-import ist.sjtu.edu.cn.ecssbackendcloud.service.DataPackageUploadService;
+import cn.edu.sjtu.ist.ecssbackendcloud.service.DataPackageUploadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.controller;
+package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;

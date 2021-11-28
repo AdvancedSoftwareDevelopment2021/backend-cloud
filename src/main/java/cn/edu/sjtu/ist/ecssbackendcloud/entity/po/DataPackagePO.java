@@ -1,4 +1,4 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.entity.po;
+package cn.edu.sjtu.ist.ecssbackendcloud.entity.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

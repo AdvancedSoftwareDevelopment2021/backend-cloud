@@ -1,4 +1,4 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.dao;
+package cn.edu.sjtu.ist.ecssbackendcloud.dao;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

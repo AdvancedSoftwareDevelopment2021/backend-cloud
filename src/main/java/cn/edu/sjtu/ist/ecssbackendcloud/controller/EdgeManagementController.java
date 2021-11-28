@@ -1,8 +1,8 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.controller;
+package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
 
-import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
-import ist.sjtu.edu.cn.ecssbackendcloud.service.EdgeManagementService;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDto;
+import cn.edu.sjtu.ist.ecssbackendcloud.service.EdgeManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

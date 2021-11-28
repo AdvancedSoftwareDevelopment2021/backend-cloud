@@ -1,4 +1,4 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.service;
+package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
 import java.util.List;
 

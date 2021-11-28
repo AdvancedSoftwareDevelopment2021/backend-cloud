@@ -1,6 +1,6 @@
-package ist.sjtu.edu.cn.ecssbackendcloud.service;
+package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
-import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDto;
 
 import java.util.List;
 
