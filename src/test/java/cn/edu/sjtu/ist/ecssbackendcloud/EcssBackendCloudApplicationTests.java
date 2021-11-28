@@ -1,4 +1,4 @@
-package ist.sjtu.edu.cn.ecssbackendcloud;
+package cn.edu.sjtu.ist.ecssbackendcloud;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
