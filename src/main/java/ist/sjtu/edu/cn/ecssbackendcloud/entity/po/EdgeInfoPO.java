@@ -27,6 +27,15 @@ public class EdgeInfoPO {
     @Field
     private String port;
 
+    @Field
+    private String api;
+
+    @Field
+    private String timeUnit;
+
+    @Field
+    private String interval;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date registerTimestamp;
 }

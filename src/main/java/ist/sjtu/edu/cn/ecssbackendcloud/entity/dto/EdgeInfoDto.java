@@ -9,20 +9,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EdgeInfoDto {
 
-    private String id;
-
     private String name;
-
-    private String processId;
-
-    private String owner;
-
-    private String responsor;
 
     private String address;
 
     private String port;
 
+    private String api;
+
     private String description;
+
+    private String timeUnit;
+
+    private int interval;
 
 }

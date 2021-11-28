@@ -4,6 +4,8 @@ package ist.sjtu.edu.cn.ecssbackendcloud.controller;
 import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
 import ist.sjtu.edu.cn.ecssbackendcloud.service.EdgeManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,19 +17,29 @@ public class EdgeManagementController {
     @Autowired
     private EdgeManagementService edgeManagementService;
 
-    @GetMapping("/edge/list")
-    public List<EdgeInfoDto> getEdgeList() {
-        return edgeManagementService.getAllEdgeInfo();
+    @PostMapping()
+    public ResponseEntity<?> insertEdgeInfo(@RequestBody EdgeInfoDto request) {
+        return new ResponseEntity<>(edgeManagementService.addEdge(request), HttpStatus.OK);
     }
 
-    @GetMapping("/edge")
-    public EdgeInfoDto getEdgeInfo(@RequestParam("edgeId") String edgeId) {
-        return edgeManagementService.getEdgeInfoById(edgeId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEdgeInfo(@PathVariable String edgeId) {
+        return new ResponseEntity<>(edgeManagementService.deleteEdgeInfoById(edgeId), HttpStatus.OK);
     }
 
-    @PostMapping("/edge/register")
-    public EdgeInfoDto registerEdge(EdgeInfoDto edgeInfoDto) {
-        return edgeManagementService.addEdge(edgeInfoDto);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateEdgeInfo(@PathVariable String edgeId, @RequestBody EdgeInfoDto edgeInfoDto) {
+        return new ResponseEntity<>(edgeManagementService.updateEdgeInfoById(edgeId, edgeInfoDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getEdgeList() {
+        return new ResponseEntity<>(edgeManagementService.getAllEdgeInfo(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getEdgeInfo(@PathVariable String edgeId) {
+        return new ResponseEntity<>(edgeManagementService.getEdgeInfoById(edgeId), HttpStatus.OK);
     }
 
 }

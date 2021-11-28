@@ -1,146 +1,84 @@
 package ist.sjtu.edu.cn.ecssbackendcloud.service.impl;
 
+import ist.sjtu.edu.cn.ecssbackendcloud.dao.DataPackageInfoDao;
+import ist.sjtu.edu.cn.ecssbackendcloud.dao.EdgeInfoDao;
 import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
+import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.Response;
+import ist.sjtu.edu.cn.ecssbackendcloud.entity.po.EdgeInfoPO;
 import ist.sjtu.edu.cn.ecssbackendcloud.service.EdgeManagementService;
+import ist.sjtu.edu.cn.ecssbackendcloud.utils.EdgeInfoUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 @Service
 @Slf4j
 public class EdgeManagementServiceImpl implements EdgeManagementService {
 
+    @Autowired
+    private EdgeInfoUtil edgeInfoUtil;
+
+    @Autowired
+    private EdgeInfoDao edgeInfoDao;
+
+    @Autowired
+    private DataPackageInfoDao dataPackageInfoDao;
+
     @Override
-    public List<EdgeInfoDto> getAllEdgeInfo() {
-        return new List<EdgeInfoDto>() {
-            @Override
-            public int size() {
-                return 0;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public boolean contains(Object o) {
-                return false;
-            }
-
-            @Override
-            public Iterator<EdgeInfoDto> iterator() {
-                return null;
-            }
-
-            @Override
-            public Object[] toArray() {
-                return new Object[0];
-            }
-
-            @Override
-            public <T> T[] toArray(T[] a) {
-                return null;
-            }
-
-            @Override
-            public boolean add(EdgeInfoDto edgeInfoDto) {
-                return false;
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                return false;
-            }
-
-            @Override
-            public boolean containsAll(Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(Collection<? extends EdgeInfoDto> c) {
-                return false;
-            }
-
-            @Override
-            public boolean addAll(int index, Collection<? extends EdgeInfoDto> c) {
-                return false;
-            }
-
-            @Override
-            public boolean removeAll(Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public boolean retainAll(Collection<?> c) {
-                return false;
-            }
-
-            @Override
-            public void clear() {
-
-            }
-
-            @Override
-            public EdgeInfoDto get(int index) {
-                return null;
-            }
-
-            @Override
-            public EdgeInfoDto set(int index, EdgeInfoDto element) {
-                return null;
-            }
-
-            @Override
-            public void add(int index, EdgeInfoDto element) {
-
-            }
-
-            @Override
-            public EdgeInfoDto remove(int index) {
-                return null;
-            }
-
-            @Override
-            public int indexOf(Object o) {
-                return 0;
-            }
-
-            @Override
-            public int lastIndexOf(Object o) {
-                return 0;
-            }
-
-            @Override
-            public ListIterator<EdgeInfoDto> listIterator() {
-                return null;
-            }
-
-            @Override
-            public ListIterator<EdgeInfoDto> listIterator(int index) {
-                return null;
-            }
-
-            @Override
-            public List<EdgeInfoDto> subList(int fromIndex, int toIndex) {
-                return null;
-            }
-        };
+    public Response getAllEdgeInfo() {
+        List<EdgeInfoPO> edgeInfoPOList = edgeInfoDao.findAll();
+        if (!edgeInfoPOList.isEmpty()) {
+            return new Response(200, "获取边缘端信息列表成功", edgeInfoPOList);
+        } else {
+            return new Response(200, "获取边缘端信息列表失败", null);
+        }
     }
 
     @Override
-    public EdgeInfoDto getEdgeInfoById(String EdgeId) {
-        return new EdgeInfoDto();
+    public Response getEdgeInfoById(String EdgeId) {
+        EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(EdgeId);
+        if (edgeInfoPO != null) {
+            return new Response(200, "获取 edge info id=" + EdgeId + "成功", edgeInfoPO);
+        } else {
+            return new Response(200, "获取 edge info id=" + EdgeId + "失败", null);
+        }
     }
 
     @Override
-    public EdgeInfoDto addEdge(EdgeInfoDto edgeInfoDto) {
-        return new EdgeInfoDto();
+    public Response deleteEdgeInfoById(String EdgeId) {
+        edgeInfoDao.deleteEdgeInfoPOById(EdgeId);
+        return new Response(200, "删除 edge info id=" + EdgeId + "成功", null);
+    }
+
+    @Override
+    public Response addEdge(EdgeInfoDto edgeInfoDto) {
+        EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOByAddressAndPort(edgeInfoDto.getAddress(), edgeInfoDto.getPort());
+        if (edgeInfoPO != null) {
+            return new Response(300, "创建失败, 该边缘端已存在", null);
+        }
+        edgeInfoPO = edgeInfoDao.findEdgeInfoPOByName(edgeInfoDto.getName());
+        if (edgeInfoPO != null) {
+            return new Response(300, "创建失败, 该名称已存在", null);
+        }
+        Date timestamp = new Date();
+        edgeInfoPO = edgeInfoUtil.convertDtoToPo(edgeInfoDto, timestamp);
+        edgeInfoDao.save(edgeInfoPO);
+        String edgeId = edgeInfoDao.findEdgeInfoPOByAddressAndPort(edgeInfoDto.getAddress(), edgeInfoDto.getPort()).getId();
+        return new Response(200, "创建成功, 边缘端id=" + edgeId, null);
+    }
+
+    @Override
+    public Response updateEdgeInfoById(String edgeId, EdgeInfoDto edgeInfoDto) {
+        EdgeInfoPO existEdgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
+        if (existEdgeInfoPO != null) {
+            EdgeInfoPO newEdgeInfoPO = edgeInfoUtil.convertDtoToPo(edgeInfoDto, existEdgeInfoPO.getRegisterTimestamp());
+            newEdgeInfoPO.setId(edgeId);
+            edgeInfoDao.save(newEdgeInfoPO);
+            return new Response(200, "边缘端id=" + edgeId + "信息修改成功", null);
+        } else {
+            return new Response(200, "修改边缘端id=" + edgeId + "信息失败，该边缘端不存在", null);
+        }
     }
 }
