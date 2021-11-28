@@ -91,6 +91,7 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
         if (existEdgeInfoPO != null) {
             EdgeInfoPO newEdgeInfoPO = edgeInfoUtil.convertDtoToPo(edgeInfoDto, existEdgeInfoPO.getRegisterTimestamp());
             newEdgeInfoPO.setId(edgeId);
+            newEdgeInfoPO.setStatus("未连接");
             edgeInfoDao.save(newEdgeInfoPO);
             return new Response(200, "边缘端id=" + edgeId + "信息修改成功", null);
         } else {
