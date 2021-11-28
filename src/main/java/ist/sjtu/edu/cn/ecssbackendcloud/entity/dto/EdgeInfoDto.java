@@ -19,8 +19,10 @@ public class EdgeInfoDto {
 
     private String responsor;
 
-    private String ip;
+    private String address;
 
     private String port;
+
+    private String description;
 
 }
