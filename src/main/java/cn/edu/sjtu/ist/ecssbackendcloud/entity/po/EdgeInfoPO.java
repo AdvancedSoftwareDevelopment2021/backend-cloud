@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Date;
 
 @Data
-@Document(collation = "EdgeInfo")
+@Document("EdgeInfo")
 public class EdgeInfoPO {
 
     @Id
