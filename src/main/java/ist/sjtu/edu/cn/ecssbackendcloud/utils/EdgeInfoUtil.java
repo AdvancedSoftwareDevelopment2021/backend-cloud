@@ -1,6 +1,7 @@
 package ist.sjtu.edu.cn.ecssbackendcloud.utils;
 
 import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
+import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.PingInfoRequest;
 import ist.sjtu.edu.cn.ecssbackendcloud.entity.po.EdgeInfoPO;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +15,20 @@ public class EdgeInfoUtil {
         edgeInfoPO.setName(edgeInfoDto.getName());
         edgeInfoPO.setDescription(edgeInfoDto.getDescription());
         edgeInfoPO.setApi(edgeInfoDto.getApi());
-        edgeInfoPO.setAddress(edgeInfoDto.getAddress());
-        edgeInfoPO.setPort(edgeInfoDto.getPort());
+        edgeInfoPO.setUrl(edgeInfoDto.getUrl());
         edgeInfoPO.setRegisterTimestamp(timestamp);
         edgeInfoPO.setInterval(String.valueOf(edgeInfoDto.getInterval()));
         edgeInfoPO.setTimeUnit(edgeInfoDto.getTimeUnit());
         return edgeInfoPO;
+    }
+
+    public PingInfoRequest createPingBody(EdgeInfoPO edgeInfoPO) {
+        PingInfoRequest pingInfoRequest = new PingInfoRequest();
+        pingInfoRequest.setId(edgeInfoPO.getId());
+        pingInfoRequest.setUrl("http://127.0.0.1:8080/");
+        pingInfoRequest.setTimeUnit(edgeInfoPO.getTimeUnit());
+        pingInfoRequest.setInterval(edgeInfoPO.getInterval());
+        return pingInfoRequest;
     }
 
 }

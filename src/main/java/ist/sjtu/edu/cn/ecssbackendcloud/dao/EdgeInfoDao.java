@@ -14,10 +14,8 @@ public interface EdgeInfoDao extends MongoRepository<EdgeInfoPO, String> {
 
     void deleteEdgeInfoPOById(String id);
 
-    EdgeInfoPO findEdgeInfoPOByAddressAndPort(String address, String port);
+    EdgeInfoPO findEdgeInfoPOByUrl(String url);
 
     EdgeInfoPO findEdgeInfoPOByName(String name);
-
-
 
 }

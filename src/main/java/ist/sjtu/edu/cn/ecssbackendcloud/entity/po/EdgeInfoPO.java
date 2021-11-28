@@ -22,10 +22,7 @@ public class EdgeInfoPO {
     private String description;
 
     @Field
-    private String address;
-
-    @Field
-    private String port;
+    private String url;
 
     @Field
     private String api;
@@ -35,6 +32,9 @@ public class EdgeInfoPO {
 
     @Field
     private String interval;
+
+    @Field
+    private String status;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date registerTimestamp;

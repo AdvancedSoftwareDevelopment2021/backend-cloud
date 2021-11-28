@@ -7,18 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EdgeInfoDto {
+public class PingInfoRequest {
 
-    private String name;
-
-    private String url;
-
-    private String api;
-
-    private String description;
+    private String id;
 
     private String timeUnit;
 
-    private int interval;
+    private String interval;
+
+    private String url;
 
 }

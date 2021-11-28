@@ -1,14 +1,11 @@
 package ist.sjtu.edu.cn.ecssbackendcloud.controller;
 
-
 import ist.sjtu.edu.cn.ecssbackendcloud.entity.dto.EdgeInfoDto;
 import ist.sjtu.edu.cn.ecssbackendcloud.service.EdgeManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/edge")
@@ -40,6 +37,11 @@ public class EdgeManagementController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getEdgeInfo(@PathVariable String edgeId) {
         return new ResponseEntity<>(edgeManagementService.getEdgeInfoById(edgeId), HttpStatus.OK);
+    }
+
+    @GetMapping("/ping/{id}")
+    public ResponseEntity<?> pingEdge(@PathVariable String edgeId) {
+        return new ResponseEntity<>(edgeManagementService.pingEdge(edgeId), HttpStatus.OK);
     }
 
 }

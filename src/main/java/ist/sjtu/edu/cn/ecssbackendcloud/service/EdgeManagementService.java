@@ -17,4 +17,6 @@ public interface EdgeManagementService {
 
     Response getEdgeInfoById(String edgeId);
 
+    Response pingEdge(String edgeId);
+
 }
