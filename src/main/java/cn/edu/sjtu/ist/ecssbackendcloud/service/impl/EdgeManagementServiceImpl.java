@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.dao.DataPackageInfoDao;
+import cn.edu.sjtu.ist.ecssbackendcloud.dao.DataPackageDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.EdgeInfoDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDto;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.PingInfoRequest;
@@ -11,7 +11,6 @@ import cn.edu.sjtu.ist.ecssbackendcloud.utils.EdgeInfoUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -22,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.*;
 
 @Service
@@ -36,7 +34,7 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
     private EdgeInfoDao edgeInfoDao;
 
     @Autowired
-    private DataPackageInfoDao dataPackageInfoDao;
+    private DataPackageDao dataPackageInfoDao;
 
     @Override
     public Response getAllEdgeInfo() {
