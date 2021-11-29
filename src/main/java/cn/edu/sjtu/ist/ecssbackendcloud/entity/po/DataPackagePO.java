@@ -20,9 +20,11 @@ public class DataPackagePO {
 
     private String edgeId;
 
+    private String edgeName;
+
     private String contentType; // 文件类型
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date timestamp;
 
     private long size;

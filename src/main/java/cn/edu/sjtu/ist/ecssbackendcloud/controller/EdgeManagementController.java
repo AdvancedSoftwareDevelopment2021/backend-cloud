@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDto;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.EdgeManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ public class EdgeManagementController {
     private EdgeManagementService edgeManagementService;
 
     @PostMapping()
-    public ResponseEntity<?> insertEdgeInfo(@RequestBody EdgeInfoDto request) {
+    public ResponseEntity<?> insertEdgeInfo(@RequestBody EdgeInfoDTO request) {
         return new ResponseEntity<>(edgeManagementService.addEdge(request), HttpStatus.OK);
     }
 
@@ -25,7 +25,7 @@ public class EdgeManagementController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEdgeInfo(@PathVariable String id, @RequestBody EdgeInfoDto edgeInfoDto) {
+    public ResponseEntity<?> updateEdgeInfo(@PathVariable String id, @RequestBody EdgeInfoDTO edgeInfoDto) {
         return new ResponseEntity<>(edgeManagementService.updateEdgeInfoById(id, edgeInfoDto), HttpStatus.OK);
     }
 
@@ -36,13 +36,17 @@ public class EdgeManagementController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getEdgeInfo(@PathVariable String id) {
-        System.out.println("test");
         return new ResponseEntity<>(edgeManagementService.getEdgeInfoById(id), HttpStatus.OK);
     }
 
     @GetMapping("/ping/{id}")
     public ResponseEntity<?> pingEdge(@PathVariable String id) {
         return new ResponseEntity<>(edgeManagementService.pingEdge(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/ping/stop/{id}")
+    public ResponseEntity<?> pingStopEdge(@PathVariable String id) {
+        return new ResponseEntity<>(edgeManagementService.pingStopEdge(id), HttpStatus.OK);
     }
 
 }

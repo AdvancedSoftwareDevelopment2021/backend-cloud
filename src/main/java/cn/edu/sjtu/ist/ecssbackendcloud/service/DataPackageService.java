@@ -1,7 +1,7 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
 
 public interface DataPackageService {
@@ -13,4 +13,6 @@ public interface DataPackageService {
     Response getDataPackage();
 
     Response getDataPackageById(String id);
+
+    Response deleteDataPackage(String id);
 }

@@ -2,7 +2,7 @@ package cn.edu.sjtu.ist.ecssbackendcloud.utils.convert;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ProcessPO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
 
 import org.springframework.stereotype.Component;
 

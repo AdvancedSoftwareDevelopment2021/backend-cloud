@@ -1,9 +1,11 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.DataPackageDao;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
+import cn.edu.sjtu.ist.ecssbackendcloud.dao.EdgeInfoDao;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.DataPackageDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.EdgeInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.DataPackageService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.DataPackageUtil;
 
@@ -12,7 +14,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Slf4j
@@ -24,8 +25,16 @@ public class DataPackageServiceImpl implements DataPackageService {
     @Autowired
     private DataPackageDao dataPackageDao;
 
+    @Autowired
+    private EdgeInfoDao edgeInfoDao;
+
     @Override
     public Response receiveDataPackage(DataPackage dataPackage) {
+        EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(dataPackage.getEdgeId());
+        if(edgeInfoPO == null) {
+            return new Response(200, "边缘端不存在", "接收成功");
+        }
+        dataPackage.setEdgeName(edgeInfoPO.getName());
         dataPackageDao.createDataPackage(dataPackage);
         return new Response(200, "OK", "接收成功");
     }
@@ -36,7 +45,6 @@ public class DataPackageServiceImpl implements DataPackageService {
         List<DataPackageDTO> dataPackageDTOList = new ArrayList<>();
         for(DataPackage dataPackage: dataPackageList){
             DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
-            // TODO dataPackageDTO 的 edge的名称
             dataPackageDTOList.add(dataPackageDTO);
         }
         return new Response(200, "OK", dataPackageDTOList);
@@ -48,7 +56,6 @@ public class DataPackageServiceImpl implements DataPackageService {
         List<DataPackageDTO> dataPackageDTOList = new ArrayList<>();
         for(DataPackage dataPackage: dataPackageList){
             DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
-            // TODO dataPackageDTO 的 edge的名称
             dataPackageDTOList.add(dataPackageDTO);
         }
         return new Response(200, "OK", dataPackageDTOList);
@@ -58,7 +65,12 @@ public class DataPackageServiceImpl implements DataPackageService {
     public Response getDataPackageById(String id) {
         DataPackage dataPackage = dataPackageDao.findDataPackageById(id);
         DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
-        // TODO dataPackageDTO 的 edge的名称
         return new Response(200, "OK", dataPackageDTO);
+    }
+
+    @Override
+    public Response deleteDataPackage(String id) {
+        dataPackageDao.deleteDataPackageById(id);
+        return new Response(200, "删除成功", null);
     }
 }

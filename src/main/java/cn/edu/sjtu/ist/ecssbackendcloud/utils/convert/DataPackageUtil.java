@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.utils.convert;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.DataPackageDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.DataPackagePO;
 import org.springframework.stereotype.Component;
@@ -18,6 +18,7 @@ public class DataPackageUtil {
         res.setId(domain.getId());
         res.setName(domain.getName());
         res.setEdgeId(domain.getEdgeId());
+        res.setEdgeName(domain.getEdgeName());
         res.setTimestamp(domain.getTimestamp() == null ? new Date() : domain.getTimestamp());
         return res;
     }
@@ -27,6 +28,7 @@ public class DataPackageUtil {
         res.setId(po.getId());
         res.setName(po.getName());
         res.setEdgeId(po.getEdgeId());
+        res.setEdgeName(po.getEdgeName());
         res.setContentType(po.getContentType());
         res.setSize(po.getSize());
         res.setMd5(po.getMd5());
@@ -40,6 +42,7 @@ public class DataPackageUtil {
         res.setId(domain.getId());
         res.setName(domain.getName());
         res.setEdgeId(domain.getEdgeId());
+        res.setEdgeName(domain.getEdgeName());
         res.setContentType(domain.getContentType());
         res.setSize(domain.getSize());
         res.setMd5(domain.getMd5());

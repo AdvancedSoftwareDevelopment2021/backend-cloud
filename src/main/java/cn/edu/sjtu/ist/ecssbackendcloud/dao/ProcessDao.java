@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.dao;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
 
 import java.util.List;
 

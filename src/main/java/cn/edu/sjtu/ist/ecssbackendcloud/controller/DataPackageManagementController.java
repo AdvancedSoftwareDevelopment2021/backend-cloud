@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.DataPackageService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.MD5Util;
@@ -41,5 +41,10 @@ public class DataPackageManagementController {
     @GetMapping(value = "")
     public ResponseEntity<?> getDataPackage() {
         return new ResponseEntity<>(dataPackageService.getDataPackage(), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteDataPackage(@PathVariable String id) {
+        return new ResponseEntity<>(dataPackageService.deleteDataPackage(id), HttpStatus.OK);
     }
 }

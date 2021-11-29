@@ -1,4 +1,4 @@
-package cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process;
+package cn.edu.sjtu.ist.ecssbackendcloud.entity.domain;
 
 import lombok.Data;
 

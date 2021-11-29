@@ -1,7 +1,7 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.dao.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.DataPackageDao;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.DataPackagePO;
 import cn.edu.sjtu.ist.ecssbackendcloud.repository.DataPackageRepository;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.DataPackageUtil;
