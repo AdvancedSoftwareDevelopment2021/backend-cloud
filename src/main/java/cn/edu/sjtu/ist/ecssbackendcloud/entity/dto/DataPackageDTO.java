@@ -20,6 +20,9 @@ public class DataPackageDTO {
 
     private String edgeId;
 
+    private String edgeName;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date timestamp;
 
 }

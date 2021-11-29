@@ -2,7 +2,7 @@ package cn.edu.sjtu.ist.ecssbackendcloud.dao.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.ProcessDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ProcessPO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.repository.ProcessRepository;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.ProcessUtil;
 

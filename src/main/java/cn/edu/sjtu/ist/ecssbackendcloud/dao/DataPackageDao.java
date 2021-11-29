@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.dao;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.DataPackage;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
 
 import java.util.List;
 

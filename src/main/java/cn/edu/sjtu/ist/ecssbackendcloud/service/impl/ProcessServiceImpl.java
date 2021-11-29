@@ -1,7 +1,7 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.ProcessDao;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ProcessService;

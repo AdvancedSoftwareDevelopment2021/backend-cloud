@@ -1,4 +1,4 @@
-package cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process;
+package cn.edu.sjtu.ist.ecssbackendcloud.entity.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -20,8 +20,11 @@ public class DataPackage {
 
     private String edgeId;
 
+    private String edgeName;
+
     private String contentType; // 文件类型
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date timestamp;
 
     private long size;
