@@ -141,6 +141,9 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
     @Override
     public Response pingStopEdge(String edgeId) {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
+        if (edgeInfoPO.getStatus() == EdgeStatus.OFFLINE) {
+            return new Response(200, "边缘端id=" + edgeId + "未连接, 无法断连", true);
+        }
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpPost httpPost = new HttpPost(edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort().toString() + edgeInfoPO.getApi() + "/stop");
