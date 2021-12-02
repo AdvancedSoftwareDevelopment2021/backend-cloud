@@ -29,4 +29,6 @@ public class ProcessPO {
     @Field
     private Date createdTime;
 
+    private String stepCnt;
+
 }
