@@ -14,7 +14,6 @@ public class EdgeInfoUtil {
         EdgeInfoPO edgeInfoPO = new EdgeInfoPO();
         edgeInfoPO.setName(edgeInfoDto.getName());
         edgeInfoPO.setDescription(edgeInfoDto.getDescription());
-        edgeInfoPO.setApi(edgeInfoDto.getApi());
         edgeInfoPO.setIp(edgeInfoDto.getIp());
         edgeInfoPO.setPort(edgeInfoDto.getPort());
         edgeInfoPO.setRegisterTimestamp(timestamp);
