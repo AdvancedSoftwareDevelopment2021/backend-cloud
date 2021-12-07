@@ -1,7 +1,11 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * @brief 流程 service
@@ -11,14 +15,26 @@ import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
  */
 public interface ProcessService {
 
-    Response insertProcess(ProcessDTO processDTO);
+    Process insertProcess(Process process);
 
-    Response deleteProcess(String id);
+    Process insertProcessWithFile(Process process, MultipartFile file);
 
-    Response updateProcess(String id, ProcessDTO processDTO);
+    void deleteProcess(String id);
 
-    Response getProcess(String id);
+    void updateProcess(String id, Process process);
 
-    Response getAllProcesses();
+    List<Process> getAllProcesses();
+
+    void updateProcessBpmn(String processId, MultipartFile file);
+
+    void updateProcessStep(String processId, Step step);
+
+    void updateProcessName(String processId, String name);
+
+    Process findProcess(String processId);
+
+    List<Process> findOwnedProcesses(String owner);
+
+    String findBpmn(String processId);
 
 }

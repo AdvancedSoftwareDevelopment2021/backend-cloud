@@ -18,6 +18,8 @@ public interface ProcessRepository extends MongoRepository<ProcessPO, String> {
 
     List<ProcessPO> findProcessPOSByName(String name);
 
+    List<ProcessPO> findProcessPOSByOwner(String owner);
+
     List<ProcessPO> findAll();
 
 }

@@ -1,5 +1,8 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.entity.po;
 
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Status;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
+
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -21,6 +24,9 @@ public class ProcessPO {
     private String id;
 
     @Field
+    private String owner;
+
+    @Field
     private String name;
 
     @Field
@@ -29,4 +35,9 @@ public class ProcessPO {
     @Field
     private Date createdTime;
 
+    @Field
+    private Step step;
+
+    @Field
+    private Status status;
 }
