@@ -1,17 +1,22 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.ProcessDao;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ProcessService;
-import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.ProcessUtil;
+import cn.edu.sjtu.ist.ecssbackendcloud.utils.BpmnUtils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.model.bpmn.Bpmn;
+import org.camunda.bpm.model.bpmn.BpmnModelInstance;
+import org.camunda.bpm.model.bpmn.instance.DataStoreReference;
+import org.camunda.bpm.model.bpmn.instance.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -25,48 +30,95 @@ import java.util.List;
 public class ProcessServiceImpl implements ProcessService {
 
     @Autowired
-    private ProcessUtil processUtil;
-
-    @Autowired
     private ProcessDao processDao;
 
     @Override
-    public Response insertProcess(ProcessDTO processDTO) {
-        Process process = processUtil.convertDTO2Domain(processDTO);
+    public Process insertProcess(Process process) {
         processDao.createProcess(process);
-        return new Response(200, "插入流程成功!", null);
+        log.info("插入流程成功!");
+        return processDao.findProcessByName(process.getName()).get(0);
     }
 
     @Override
-    public Response deleteProcess(String id) {
+    public Process insertProcessWithFile(Process process, MultipartFile file) {
+        String bpmn = BpmnUtils.multiFileToStr(file);
+        verifyName(bpmn);
+        process.setBpmn(bpmn);
+        return insertProcess(process);
+    }
+
+    @Override
+    public void deleteProcess(String id) {
         processDao.removeProcess(id);
-        return new Response(200, "删除流程id=" + id + "成功!", null);
+        log.info("删除流程id={}成功!", id);
     }
 
     @Override
-    public Response updateProcess(String id, ProcessDTO processDTO) {
-        processDTO.setId(id);
-        log.info(processDTO.toString());
-        Process process = processUtil.convertDTO2Domain(processDTO);
+    public void updateProcess(String id, Process process) {
+        process.setId(id);
+        log.info(process.toString());
         processDao.modifyProcess(process);
-        return new Response(200, "更新流程id=" + id + "成功!", null);
+        log.info("更新流程id={}成功!", id);
     }
 
     @Override
-    public Response getProcess(String id) {
-        Process process = processDao.findProcessById(id);
-        ProcessDTO processDTO = processUtil.convertDomain2DTO(process);
-        return new Response(200, "获取流程id=" + id + "成功!", processDTO);
+    public List<Process> getAllProcesses() {
+        List<Process> processes = processDao.findAllProcesses();
+        log.info("获取所有流程成功");
+        return processes;
     }
 
-    @Override
-    public Response getAllProcesses() {
-        List<Process> processs = processDao.findAllProcesss();
-        List<ProcessDTO> res = new ArrayList<>();
-        for (Process process: processs) {
-            ProcessDTO dto = processUtil.convertDomain2DTO(process);
-            res.add(dto);
+    private void verifyName(String bpmn){
+        BpmnModelInstance instance = Bpmn.readModelFromStream(BpmnUtils.strToInStream(bpmn));
+        Collection<? extends Task> tasks = instance.getModelElementsByType(Task.class);
+        for (Task task : tasks) {
+            Assert.notNull(task.getName(), "Task节点应该绑定名称");
         }
-        return new Response(200, "获取所有流程成功", res);
+        Collection<? extends DataStoreReference> dsrs = instance.getModelElementsByType(DataStoreReference.class);
+        for (DataStoreReference dsr : dsrs) {
+            Assert.notNull(dsr.getName(), "数据节点应该绑定名称");
+        }
+    }
+
+    @Override
+    public void updateProcessBpmn(String processId, MultipartFile file) {
+        String bpmn = BpmnUtils.multiFileToStr(file);
+        verifyName(bpmn);
+        Process process = findProcess(processId);
+        process.setBpmn(bpmn);
+        processDao.modifyProcess(process);
+    }
+
+    @Override
+    public void updateProcessStep(String processId, Step step) {
+        Process process = findProcess(processId);
+        if (step == Step.FINISHED) {
+            process.verifySelf();
+        }
+        process.setStep(step);
+        processDao.modifyProcess(process);
+    }
+
+    @Override
+    public void updateProcessName(String processId, String name) {
+        Process process = findProcess(processId);
+        process.setName(name);
+        processDao.modifyProcess(process);
+    }
+
+    @Override
+    public Process findProcess(String processId) {
+        return processDao.findProcessById(processId);
+    }
+
+    @Override
+    public List<Process> findOwnedProcesses(String owner) {
+        return processDao.findProcessesByOwner(owner);
+    }
+
+    @Override
+    public String findBpmn(String processId) {
+        Process process = findProcess(processId);
+        return process.getBpmn();
     }
 }

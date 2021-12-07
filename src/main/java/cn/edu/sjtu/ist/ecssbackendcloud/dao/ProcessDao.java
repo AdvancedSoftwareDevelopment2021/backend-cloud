@@ -1,6 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.dao;
 
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
 
 import java.util.List;
 
@@ -22,5 +22,7 @@ public interface ProcessDao {
 
     List<Process> findProcessByName(String name);
 
-    List<Process> findAllProcesss();
+    List<Process> findProcessesByOwner(String owner);
+
+    List<Process> findAllProcesses();
 }

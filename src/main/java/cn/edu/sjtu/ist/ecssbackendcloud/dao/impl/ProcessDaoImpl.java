@@ -2,7 +2,7 @@ package cn.edu.sjtu.ist.ecssbackendcloud.dao.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.ProcessDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ProcessPO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.repository.ProcessRepository;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.ProcessUtil;
 
@@ -60,22 +60,33 @@ public class ProcessDaoImpl implements ProcessDao {
     @Override
     public List<Process> findProcessByName(String name) {
         List<ProcessPO> processPOs = processRepository.findProcessPOSByName(name);
-        List<Process> processs = new ArrayList<>();
+        List<Process> processes = new ArrayList<>();
         for (ProcessPO processPO: processPOs) {
             Process dm = processUtil.convertPO2Domain(processPO);
-            processs.add(dm);
+            processes.add(dm);
         }
-        return processs;
+        return processes;
     }
 
     @Override
-    public List<Process> findAllProcesss() {
-        List<ProcessPO> processPOs = processRepository.findAll();
-        List<Process> processs = new ArrayList<>();
+    public List<Process> findProcessesByOwner(String owner) {
+        List<ProcessPO> processPOs = processRepository.findProcessPOSByOwner(owner);
+        List<Process> processes = new ArrayList<>();
         for (ProcessPO processPO: processPOs) {
             Process dm = processUtil.convertPO2Domain(processPO);
-            processs.add(dm);
+            processes.add(dm);
         }
-        return processs;
+        return processes;
+    }
+
+    @Override
+    public List<Process> findAllProcesses() {
+        List<ProcessPO> processPOs = processRepository.findAll();
+        List<Process> processes = new ArrayList<>();
+        for (ProcessPO processPO: processPOs) {
+            Process dm = processUtil.convertPO2Domain(processPO);
+            processes.add(dm);
+        }
+        return processes;
     }
 }
