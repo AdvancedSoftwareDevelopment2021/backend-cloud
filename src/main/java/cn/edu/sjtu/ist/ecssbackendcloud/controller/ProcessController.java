@@ -1,9 +1,11 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Status;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ProcessService;
+import cn.edu.sjtu.ist.ecssbackendcloud.utils.BpmnUtils;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.ProcessUtil;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.Result;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.ResultUtil;
@@ -12,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Date;
 
 /**
  * @brief 流程controller
@@ -31,16 +35,18 @@ public class ProcessController {
     private ProcessUtil processUtil;
 
     @PostMapping(value = "")
-    public Result<?> insertProcess(@RequestBody ProcessDTO dto) {
+    public Result<?> insertProcessWithFile(@RequestParam("name") String name,
+                                           @RequestParam("owner") String owner,
+                                           @RequestParam("file") MultipartFile file) {
+        ProcessDTO dto = new ProcessDTO();
+        dto.setOwner(owner);
+        dto.setName(name);
+        dto.setBpmn(BpmnUtils.multiFileToStr(file));
+        dto.setCreatedTime(new Date());
+        dto.setStep(Step.BPMN);
+        dto.setStatus(Status.CONSTRUCTING);
         Process process = processUtil.convertDTO2Domain(dto);
         return ResultUtil.success(processService.insertProcess(process));
-    }
-
-    @PostMapping(value = "/insert")
-    public Result<?> insertProcessWithFile(@RequestBody ProcessDTO dto,
-                                           @RequestParam("file") MultipartFile file) {
-        Process process = processUtil.convertDTO2Domain(dto);
-        return ResultUtil.success(processService.insertProcessWithFile(process, file));
     }
 
     @DeleteMapping(value = "/{id}")
