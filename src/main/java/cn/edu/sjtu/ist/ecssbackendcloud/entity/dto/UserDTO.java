@@ -1,6 +1,8 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.entity.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  * @date 2021-12-21
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     private String id;

@@ -44,13 +44,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User findUserById(String userId) {
         UserPO po = userRepository.findUserPOById(userId);
-        return userUtil.convertPO2Domain(po);
+        return po == null ? null : userUtil.convertPO2Domain(po);
     }
 
     @Override
     public User findUserByUsername(String username) {
         UserPO po = userRepository.findUserPOByUsername(username);
-        return userUtil.convertPO2Domain(po);
+        return po == null ? null : userUtil.convertPO2Domain(po);
     }
 
     @Override

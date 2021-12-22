@@ -3,8 +3,11 @@ package cn.edu.sjtu.ist.ecssbackendcloud.service;
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.UserDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.User;
 
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.UserPermission;
+import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -26,7 +29,29 @@ public class UserService {
      * @return 新用户信息
      */
     public User register(User user) {
+        User domain = userDao.findUserByUsername(user.getUsername());
+        if (domain != null) {
+            throw new RuntimeException("同名用户已存在");
+        }
         return userDao.createUser(user);
+    }
+
+    /**
+     * 用户登录
+     * @param username 用户名称
+     * @param password 用户密码
+     * @return token
+     */
+    public String login(String username, String password) {
+        User user = findUserByName(username);
+//        if (user == null) {
+//            throw new RuntimeException("登录失败，用户不存在");
+//        }
+        Assert.isTrue(user != null, "登录失败，用户不存在");
+        if (!user.checkPasswd(password)) {
+            throw new RuntimeException("登录失败，密码错误");
+        }
+        return user.getToken();
     }
 
     /**

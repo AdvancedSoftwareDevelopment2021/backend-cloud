@@ -2,7 +2,9 @@ package cn.edu.sjtu.ist.ecssbackendcloud.entity.domain;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ import java.util.List;
  * @date 2021-12-21
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     private String id;
@@ -35,11 +39,23 @@ public class User {
         this.password = passwd;
     }
 
+    public String getPassword() {
+        return this.password;
+    }
+
     public String getToken() {
         String token = "";
         token = JWT.create()
                 .withAudience(id)
                 .sign(Algorithm.HMAC256(password));
         return token;
+    }
+
+    public boolean checkPasswd(String password) {
+        return this.password.equals(password);
+    }
+
+    public boolean isAdmin() {
+        return this.permission == UserPermission.ADMIN;
     }
 }
