@@ -1,5 +1,6 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.ProcessRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Status;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
@@ -35,9 +36,10 @@ public class ProcessController {
     private ProcessUtil processUtil;
 
     @PostMapping(value = "")
-    public Result<?> insertProcessWithFile(@RequestParam("name") String name,
-                                           @RequestParam("owner") String owner,
-                                           @RequestParam("file") MultipartFile file) {
+    public Result<?> insertProcessWithFile(@ModelAttribute ProcessRequest request) {
+        String name = request.getName();
+        String owner = request.getOwner();
+        MultipartFile file = request.getFile();
         ProcessDTO dto = new ProcessDTO();
         dto.setOwner(owner);
         dto.setName(name);
