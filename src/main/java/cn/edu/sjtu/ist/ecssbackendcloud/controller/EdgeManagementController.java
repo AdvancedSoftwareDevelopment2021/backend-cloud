@@ -2,10 +2,14 @@ package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.EdgeManagementService;
+import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.Result;
+import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/edge")
@@ -15,38 +19,39 @@ public class EdgeManagementController {
     private EdgeManagementService edgeManagementService;
 
     @PostMapping()
-    public ResponseEntity<?> insertEdgeInfo(@RequestBody EdgeInfoDTO request) {
-        return new ResponseEntity<>(edgeManagementService.addEdge(request), HttpStatus.OK);
+    public Result<EdgeInfoDTO> insertEdgeInfo(@RequestBody EdgeInfoDTO request) {
+        return ResultUtil.success(edgeManagementService.addEdge(request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEdgeInfo(@PathVariable String id) {
-        return new ResponseEntity<>(edgeManagementService.deleteEdgeInfoById(id), HttpStatus.OK);
+    public Result deleteEdgeInfo(@PathVariable String id) {
+        edgeManagementService.deleteEdgeInfoById(id);
+        return ResultUtil.success();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateEdgeInfo(@PathVariable String id, @RequestBody EdgeInfoDTO edgeInfoDto) {
-        return new ResponseEntity<>(edgeManagementService.updateEdgeInfoById(id, edgeInfoDto), HttpStatus.OK);
+    public Result<EdgeInfoDTO> updateEdgeInfo(@PathVariable String id, @RequestBody EdgeInfoDTO edgeInfoDto) {
+        return ResultUtil.success(edgeManagementService.updateEdgeInfoById(id, edgeInfoDto));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getEdgeList() {
-        return new ResponseEntity<>(edgeManagementService.getAllEdgeInfo(), HttpStatus.OK);
+    public Result<List<EdgeInfoDTO>> getEdgeList() {
+        return ResultUtil.success(edgeManagementService.getAllEdgeInfo());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getEdgeInfo(@PathVariable String id) {
-        return new ResponseEntity<>(edgeManagementService.getEdgeInfoById(id), HttpStatus.OK);
+    public Result<EdgeInfoDTO> getEdgeInfo(@PathVariable String id) {
+        return ResultUtil.success(edgeManagementService.getEdgeInfoById(id));
     }
 
     @GetMapping("/ping/{id}")
-    public ResponseEntity<?> pingEdge(@PathVariable String id) {
-        return new ResponseEntity<>(edgeManagementService.pingEdge(id), HttpStatus.OK);
+    public Result<Boolean> pingEdge(@PathVariable String id) {
+        return ResultUtil.success(edgeManagementService.pingEdge(id));
     }
 
     @GetMapping("/ping/stop/{id}")
-    public ResponseEntity<?> pingStopEdge(@PathVariable String id) {
-        return new ResponseEntity<>(edgeManagementService.pingStopEdge(id), HttpStatus.OK);
+    public Result<Boolean> pingStopEdge(@PathVariable String id) {
+        return ResultUtil.success(edgeManagementService.pingStopEdge(id));
     }
 
 }

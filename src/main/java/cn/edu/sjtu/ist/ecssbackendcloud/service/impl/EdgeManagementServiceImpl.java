@@ -34,67 +34,70 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
     private EdgeInfoDao edgeInfoDao;
 
     @Override
-    public Response getAllEdgeInfo() {
+    public List<EdgeInfoDTO> getAllEdgeInfo() {
         List<EdgeInfoPO> edgeInfoPOList = edgeInfoDao.findAll();
+        List<EdgeInfoDTO> edgeInfoDTOList = new ArrayList<>();
         if (!edgeInfoPOList.isEmpty()) {
-            return new Response(200, "获取边缘端信息列表成功", edgeInfoPOList);
+            for(EdgeInfoPO edgeInfoPO: edgeInfoPOList){
+                edgeInfoDTOList.add(edgeInfoUtil.convertPO2DTO(edgeInfoPO));
+            }
+            return edgeInfoDTOList;
         } else {
-            return new Response(200, "获取边缘端信息列表失败", null);
+            throw new RuntimeException("获取边缘端信息失败");
         }
     }
 
     @Override
-    public Response getEdgeInfoById(String EdgeId) {
+    public EdgeInfoDTO getEdgeInfoById(String EdgeId) {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(EdgeId);
         if (edgeInfoPO != null) {
-            return new Response(200, "获取 edge info id=" + EdgeId + "成功", edgeInfoPO);
+            return edgeInfoUtil.convertPO2DTO(edgeInfoPO);
         } else {
-            return new Response(200, "获取 edge info id=" + EdgeId + "失败", null);
+            throw new RuntimeException("获取边缘信息失败");
         }
     }
 
     @Override
-    public Response deleteEdgeInfoById(String EdgeId) {
+    public void deleteEdgeInfoById(String EdgeId) {
         if (edgeInfoDao.findEdgeInfoPOById(EdgeId) == null) {
-            return new Response(200, "删除 edge info id=" + EdgeId + "失败，不存在该边缘端节点", null);
+            throw new RuntimeException("不存在该边缘端节点");
         }
         edgeInfoDao.deleteEdgeInfoPOById(EdgeId);
-        return new Response(200, "删除 edge info id=" + EdgeId + "成功", null);
     }
 
     @Override
-    public Response addEdge(EdgeInfoDTO edgeInfoDto) {
+    public EdgeInfoDTO addEdge(EdgeInfoDTO edgeInfoDto) {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOByIpAndPort(edgeInfoDto.getIp(), edgeInfoDto.getPort());
         if (edgeInfoPO != null) {
-            return new Response(300, "创建失败, 该边缘端已存在", null);
+            throw new RuntimeException("该边缘端已存在");
         }
         edgeInfoPO = edgeInfoDao.findEdgeInfoPOByName(edgeInfoDto.getName());
         if (edgeInfoPO != null) {
-            return new Response(300, "创建失败, 该名称已存在", null);
+            throw new RuntimeException("该名称已存在");
         }
         edgeInfoPO = edgeInfoUtil.convertDtoToPo(edgeInfoDto, new Date());
         edgeInfoPO.setStatus(EdgeStatus.OFFLINE);
         edgeInfoDao.save(edgeInfoPO);
         edgeInfoPO = edgeInfoDao.findEdgeInfoPOByIpAndPort(edgeInfoDto.getIp(), edgeInfoDto.getPort());
-        return new Response(200, "创建成功, 边缘端id=" + edgeInfoPO.getId(), edgeInfoUtil.convertPO2DTO(edgeInfoPO));
+        return edgeInfoUtil.convertPO2DTO(edgeInfoPO);
     }
 
     @Override
-    public Response updateEdgeInfoById(String edgeId, EdgeInfoDTO edgeInfoDto) {
+    public EdgeInfoDTO updateEdgeInfoById(String edgeId, EdgeInfoDTO edgeInfoDto) {
         EdgeInfoPO existEdgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
         if (existEdgeInfoPO != null) {
             EdgeInfoPO newEdgeInfoPO = edgeInfoUtil.convertDtoToPo(edgeInfoDto, existEdgeInfoPO.getRegisterTimestamp());
             newEdgeInfoPO.setId(edgeId);
             newEdgeInfoPO.setStatus(EdgeStatus.OFFLINE);
             edgeInfoDao.save(newEdgeInfoPO);
-            return new Response(200, "边缘端id=" + edgeId + "信息修改成功", null);
+            return edgeInfoUtil.convertPO2DTO(newEdgeInfoPO);
         } else {
-            return new Response(200, "修改边缘端id=" + edgeId + "信息失败，该边缘端不存在", null);
+            throw new RuntimeException("该边缘端不存在");
         }
     }
 
     @Override
-    public Response pingEdge(String edgeId) {
+    public Boolean pingEdge(String edgeId) {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -118,11 +121,11 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
             }
             edgeInfoPO.setStatus(EdgeStatus.ONLINE);
             edgeInfoDao.save(edgeInfoPO);
-            return new Response(200, "边缘端id=" + edgeId + "连接成功", true);
+            return true;
         } catch (IOException e) {
             edgeInfoPO.setStatus(EdgeStatus.OFFLINE);
             e.printStackTrace();
-            return new Response(200, "边缘端id=" + edgeId + "连接失败", false);
+            return false;
         } finally {
             try {
                 // 释放资源
@@ -139,10 +142,10 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
     }
 
     @Override
-    public Response pingStopEdge(String edgeId) {
+    public Boolean pingStopEdge(String edgeId) {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
         if (edgeInfoPO.getStatus() == EdgeStatus.OFFLINE) {
-            return new Response(200, "边缘端id=" + edgeId + "未连接, 无法断连", true);
+            throw new RuntimeException("边缘端未连接, 无法断连");
         }
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -166,11 +169,11 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
             }
             edgeInfoPO.setStatus(EdgeStatus.ONLINE);
             edgeInfoDao.save(edgeInfoPO);
-            return new Response(200, "边缘端id=" + edgeId + "连接成功", true);
+            return true;
         } catch (IOException e) {
             edgeInfoPO.setStatus(EdgeStatus.OFFLINE);
             e.printStackTrace();
-            return new Response(200, "边缘端id=" + edgeId + "连接失败", false);
+            return false;
         } finally {
             try {
                 // 释放资源

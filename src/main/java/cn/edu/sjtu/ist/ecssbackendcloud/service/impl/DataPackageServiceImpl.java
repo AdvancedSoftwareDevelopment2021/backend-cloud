@@ -29,48 +29,46 @@ public class DataPackageServiceImpl implements DataPackageService {
     private EdgeInfoDao edgeInfoDao;
 
     @Override
-    public Response receiveDataPackage(DataPackage dataPackage) {
+    public void receiveDataPackage(DataPackage dataPackage) {
         EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(dataPackage.getEdgeId());
         if(edgeInfoPO == null) {
-            return new Response(200, "边缘端不存在", "接收成功");
+            throw new RuntimeException("边缘端不存在");
         }
         dataPackage.setEdgeName(edgeInfoPO.getName());
         dataPackageDao.createDataPackage(dataPackage);
-        return new Response(200, "OK", "接收成功");
     }
 
     @Override
-    public Response getDataPackageByEdgeId(String edgeId) {
+    public List<DataPackageDTO> getDataPackageByEdgeId(String edgeId) {
         List<DataPackage> dataPackageList = dataPackageDao.findDataPackagesByEdgeId(edgeId);
         List<DataPackageDTO> dataPackageDTOList = new ArrayList<>();
         for(DataPackage dataPackage: dataPackageList){
             DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
             dataPackageDTOList.add(dataPackageDTO);
         }
-        return new Response(200, "OK", dataPackageDTOList);
+        return dataPackageDTOList;
     }
 
     @Override
-    public Response getDataPackage() {
+    public List<DataPackageDTO> getDataPackage() {
         List<DataPackage> dataPackageList = dataPackageDao.findAll();
         List<DataPackageDTO> dataPackageDTOList = new ArrayList<>();
         for(DataPackage dataPackage: dataPackageList){
             DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
             dataPackageDTOList.add(dataPackageDTO);
         }
-        return new Response(200, "OK", dataPackageDTOList);
+        return dataPackageDTOList;
     }
 
     @Override
-    public Response getDataPackageById(String id) {
+    public DataPackageDTO getDataPackageById(String id) {
         DataPackage dataPackage = dataPackageDao.findDataPackageById(id);
         DataPackageDTO dataPackageDTO = dataPackageUtil.convertDomain2DTO(dataPackage);
-        return new Response(200, "OK", dataPackageDTO);
+        return dataPackageDTO;
     }
 
     @Override
-    public Response deleteDataPackage(String id) {
+    public void deleteDataPackage(String id) {
         dataPackageDao.deleteDataPackageById(id);
-        return new Response(200, "删除成功", null);
     }
 }

@@ -2,17 +2,18 @@ package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
 
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.DataPackage;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.DataPackageDTO;
+import java.util.*;
 
 public interface DataPackageService {
 
-    Response receiveDataPackage(DataPackage dataPackage);
+    void receiveDataPackage(DataPackage dataPackage);
 
-    Response getDataPackageByEdgeId(String edgeId);
+    List<DataPackageDTO> getDataPackageByEdgeId(String edgeId);
 
-    Response getDataPackage();
+    List<DataPackageDTO> getDataPackage();
 
-    Response getDataPackageById(String id);
+    DataPackageDTO getDataPackageById(String id);
 
-    Response deleteDataPackage(String id);
+    void deleteDataPackage(String id);
 }
