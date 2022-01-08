@@ -18,6 +18,8 @@ public class EdgeInfoDTO {
 
     private String name;
 
+    private String owner;
+
     private String description;
 
     private String ip;

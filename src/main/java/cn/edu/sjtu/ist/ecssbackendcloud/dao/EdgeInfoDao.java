@@ -4,6 +4,8 @@ import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.EdgeInfoPO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface EdgeInfoDao extends MongoRepository<EdgeInfoPO, String> {
 
@@ -15,4 +17,5 @@ public interface EdgeInfoDao extends MongoRepository<EdgeInfoPO, String> {
 
     EdgeInfoPO findEdgeInfoPOByName(String name);
 
+    List<EdgeInfoPO> findEdgeInfoPOSByOwner(String userId);
 }

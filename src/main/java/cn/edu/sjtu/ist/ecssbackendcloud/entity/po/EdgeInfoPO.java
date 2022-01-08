@@ -21,6 +21,9 @@ public class EdgeInfoPO {
     private String name;
 
     @Field
+    private String owner;
+
+    @Field
     private String description;
 
     @Field

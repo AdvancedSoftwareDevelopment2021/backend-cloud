@@ -12,6 +12,8 @@ public interface EdgeManagementService {
 
     EdgeInfoDTO updateEdgeInfoById(String edgeId, EdgeInfoDTO edgeInfoDto);
 
+    List<EdgeInfoDTO> getAllEdgeInfoByUser(String userId);
+
     List<EdgeInfoDTO> getAllEdgeInfo();
 
     EdgeInfoDTO getEdgeInfoById(String edgeId);

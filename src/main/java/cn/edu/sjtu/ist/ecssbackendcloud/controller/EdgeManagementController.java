@@ -34,6 +34,11 @@ public class EdgeManagementController {
         return ResultUtil.success(edgeManagementService.updateEdgeInfoById(id, edgeInfoDto));
     }
 
+    @GetMapping("/list/user/{userId}")
+    public Result<List<EdgeInfoDTO>> getEdgeList(@PathVariable String userId) {
+        return ResultUtil.success(edgeManagementService.getAllEdgeInfoByUser(userId));
+    }
+
     @GetMapping("/list")
     public Result<List<EdgeInfoDTO>> getEdgeList() {
         return ResultUtil.success(edgeManagementService.getAllEdgeInfo());

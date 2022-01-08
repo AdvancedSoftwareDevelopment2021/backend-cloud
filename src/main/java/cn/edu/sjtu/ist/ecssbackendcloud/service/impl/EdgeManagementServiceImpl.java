@@ -34,6 +34,16 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
     private EdgeInfoDao edgeInfoDao;
 
     @Override
+    public List<EdgeInfoDTO> getAllEdgeInfoByUser(String userId) {
+        List<EdgeInfoPO> edgeInfoPOList = edgeInfoDao.findEdgeInfoPOSByOwner(userId);
+        List<EdgeInfoDTO> edgeInfoDTOList = new ArrayList<>();
+        for(EdgeInfoPO edgeInfoPO: edgeInfoPOList) {
+            edgeInfoDTOList.add(edgeInfoUtil.convertPO2DTO(edgeInfoPO));
+        }
+        return edgeInfoDTOList;
+    }
+
+    @Override
     public List<EdgeInfoDTO> getAllEdgeInfo() {
         List<EdgeInfoPO> edgeInfoPOList = edgeInfoDao.findAll();
         List<EdgeInfoDTO> edgeInfoDTOList = new ArrayList<>();
