@@ -19,6 +19,7 @@ public class EdgeInfoUtil {
         edgeInfoPO.setRegisterTimestamp(timestamp);
         edgeInfoPO.setInterval(edgeInfoDto.getInterval());
         edgeInfoPO.setTimeUnit(edgeInfoDto.getTimeUnit());
+        edgeInfoPO.setOwner(edgeInfoDto.getOwner());
         return edgeInfoPO;
     }
 
@@ -34,6 +35,7 @@ public class EdgeInfoUtil {
         edgeInfoDTO.setInterval(edgeInfoPO.getInterval());
         edgeInfoDTO.setTimeUnit(edgeInfoPO.getTimeUnit());
         edgeInfoDTO.setStatus(edgeInfoPO.getStatus());
+        edgeInfoDTO.setOwner(edgeInfoPO.getOwner());
         return edgeInfoDTO;
 
     }
