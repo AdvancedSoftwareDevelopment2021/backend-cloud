@@ -37,14 +37,10 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
     public List<EdgeInfoDTO> getAllEdgeInfo() {
         List<EdgeInfoPO> edgeInfoPOList = edgeInfoDao.findAll();
         List<EdgeInfoDTO> edgeInfoDTOList = new ArrayList<>();
-        if (!edgeInfoPOList.isEmpty()) {
-            for(EdgeInfoPO edgeInfoPO: edgeInfoPOList){
-                edgeInfoDTOList.add(edgeInfoUtil.convertPO2DTO(edgeInfoPO));
-            }
-            return edgeInfoDTOList;
-        } else {
-            throw new RuntimeException("获取边缘端信息失败");
+        for(EdgeInfoPO edgeInfoPO: edgeInfoPOList) {
+            edgeInfoDTOList.add(edgeInfoUtil.convertPO2DTO(edgeInfoPO));
         }
+        return edgeInfoDTOList;
     }
 
     @Override
