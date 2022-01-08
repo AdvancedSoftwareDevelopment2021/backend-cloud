@@ -23,6 +23,8 @@ public interface ProcessService {
 
     void updateProcess(String id, Process process);
 
+    List<Process> getAllProcessesByUser(String userId);
+
     List<Process> getAllProcesses();
 
     void updateProcessBpmn(String processId, MultipartFile file);

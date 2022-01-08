@@ -69,6 +69,11 @@ public class ProcessController {
         return ResultUtil.success(processService.findProcess(id));
     }
 
+    @GetMapping(value = "/user/{userId}")
+    public Result<?> getAllProcessesByUser(@PathVariable("userId") String userId) {
+        return ResultUtil.success(processService.getAllProcessesByUser(userId));
+    }
+
     @GetMapping(value = "")
     public Result<?> getAllProcesses() {
         return ResultUtil.success(processService.getAllProcesses());

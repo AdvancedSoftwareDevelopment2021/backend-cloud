@@ -62,6 +62,13 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
+    public List<Process> getAllProcessesByUser(String userId) {
+        List<Process> processes = processDao.findProcessesByOwner(userId);
+        log.info("获取用户id=" + userId + "的所有流程成功");
+        return processes;
+    }
+
+    @Override
     public List<Process> getAllProcesses() {
         List<Process> processes = processDao.findAllProcesses();
         log.info("获取所有流程成功");
