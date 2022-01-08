@@ -2,20 +2,21 @@ package cn.edu.sjtu.ist.ecssbackendcloud.service;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
+import java.util.*;
 
 public interface EdgeManagementService {
 
-    Response addEdge(EdgeInfoDTO edgeInfoDto);
+    EdgeInfoDTO addEdge(EdgeInfoDTO edgeInfoDto);
 
-    Response deleteEdgeInfoById(String edgeId);
+    void deleteEdgeInfoById(String edgeId);
 
-    Response updateEdgeInfoById(String edgeId, EdgeInfoDTO edgeInfoDto);
+    EdgeInfoDTO updateEdgeInfoById(String edgeId, EdgeInfoDTO edgeInfoDto);
 
-    Response getAllEdgeInfo();
+    List<EdgeInfoDTO> getAllEdgeInfo();
 
-    Response getEdgeInfoById(String edgeId);
+    EdgeInfoDTO getEdgeInfoById(String edgeId);
 
-    Response pingEdge(String edgeId);
+    Boolean pingEdge(String edgeId);
 
-    Response pingStopEdge(String edgeId);
+    Boolean pingStopEdge(String edgeId);
 }
