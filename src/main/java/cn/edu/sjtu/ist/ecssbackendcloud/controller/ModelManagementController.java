@@ -51,17 +51,26 @@ public class ModelManagementController {
         return ResultUtil.success(modelManagementService.getModelInfoById(id));
     }
 
-    @PostMapping("/issue")
-    public Result<Boolean> issueModel(@ModelAttribute IssueModelRequest issueModelRequest) {
-        String id = issueModelRequest.getId();
-        String ip = issueModelRequest.getIp();
-        String port = issueModelRequest.getPort();
-        return ResultUtil.success(modelManagementService.issueModel(id, ip, port));
+    @GetMapping("/bind")
+    public Result<?> bindModel(@PathVariable String id, @PathVariable String edgeId) {
+        Boolean result = modelManagementService.bindModelEdge(id, edgeId);
+        if (result == true) {
+            return ResultUtil.success(true);
+        } else {
+            return ResultUtil.failure("This model has been bound to the edge", -1);
+        }
+
     }
 
     @GetMapping("/{id}/edge")
-    public Result<List<ModelEdgeDTO>> getModelEdge(@PathVariable String id) {
+    public Result<List<ModelEdgeDTO>> getModelEdgeList(@PathVariable String id) {
         return ResultUtil.success(modelManagementService.getModelEdgeList(id));
+    }
+
+    @DeleteMapping("/{id}/edge/{edgeId}")
+    public Result deleteModelEdge(@PathVariable String id, @PathVariable String edgeId) {
+        modelManagementService.deleteModelEdge(id, edgeId);
+        return ResultUtil.success();
     }
 
 }

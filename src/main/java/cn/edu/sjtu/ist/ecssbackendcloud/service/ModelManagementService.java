@@ -22,5 +22,9 @@ public interface ModelManagementService {
 
     List<ModelEdgeDTO> getModelEdgeList(String modelId);
 
-    Boolean issueModel(String id, String ip, String port);
+    void deleteModelEdge(String id, String edgeId);
+
+    Boolean bindModelEdge(String id, String edgeId);
+
+    Boolean issueModel(String modelId, String edgeId);
 }

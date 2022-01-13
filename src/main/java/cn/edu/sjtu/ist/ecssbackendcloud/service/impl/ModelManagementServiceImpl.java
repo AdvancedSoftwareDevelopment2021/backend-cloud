@@ -110,11 +110,12 @@ public class ModelManagementServiceImpl implements ModelManagementService {
     }
 
     @Override
-    public Boolean issueModel(String modelId, String ip, String port) {
+    public Boolean issueModel(String modelId, String edgeId) {
+        EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
         ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOById(modelId);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost httpPost = new HttpPost(ip + ':' + port + "/model");
+        HttpPost httpPost = new HttpPost(edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort() + "/model");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("file", new FileBody(modelInfoUtil.getModel(modelInfoPO.getName())));
         httpPost.setEntity(builder.build());
@@ -162,5 +163,27 @@ public class ModelManagementServiceImpl implements ModelManagementService {
             modelEdgeDTOList.add(modelEdgeDTO);
         }
         return modelEdgeDTOList;
+    }
+
+    @Override
+    public void deleteModelEdge(String id, String edgeId) {
+        ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOById(id);
+        List<String> edgeIdList = modelInfoPO.getEdgeIdList();
+        edgeIdList.remove(edgeId);
+        modelInfoPO.setEdgeIdList(edgeIdList);
+        modelInfoDao.save(modelInfoPO);
+    }
+
+    @Override
+    public Boolean bindModelEdge(String id, String edgeId) {
+        ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOById(id);
+        List<String> edgeIdList = modelInfoPO.getEdgeIdList();
+        if (edgeIdList.contains(edgeId)) {
+            return false;
+        }
+        modelInfoPO.setEdgeIdList(edgeIdList);
+        modelInfoDao.save(modelInfoPO);
+        issueModel(id, edgeId);
+        return true;
     }
 }
