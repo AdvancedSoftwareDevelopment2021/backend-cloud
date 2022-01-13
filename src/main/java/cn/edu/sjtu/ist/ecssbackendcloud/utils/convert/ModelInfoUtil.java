@@ -15,13 +15,30 @@ import java.util.List;
 @Component
 public class ModelInfoUtil {
 
-    public String modelDir = ".\\modelDir";
+    public String modelDir = ".\\mlDir";
+
+    public int saveScript(MultipartFile file, String fileName) {
+        if (file.isEmpty()) {
+            return -2;
+        }
+        File dest = new File(modelDir + "\\script\\" + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest); // 保存文件
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 
     public int saveModel(MultipartFile file, String fileName) {
         if (file.isEmpty()) {
             return -2;
         }
-        File dest = new File(modelDir + "\\" + fileName);
+        File dest = new File(modelDir + "\\model\\" + fileName);
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
         }
@@ -48,6 +65,7 @@ public class ModelInfoUtil {
         modelInfoPO.setTimeUnit(modelInfoDto.getTimeUnit());
         modelInfoPO.setOwner(modelInfoDto.getOwner());
         modelInfoPO.setStatus(modelInfoDto.getStatus());
+        modelInfoPO.setTrain(modelInfoDto.getTrain());
         return modelInfoPO;
     }
 

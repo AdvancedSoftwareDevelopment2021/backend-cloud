@@ -92,7 +92,10 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         }
         modelInfoPO = modelInfoUtil.convertDtoToPo(modelInfoDto, new Date());
         modelInfoDao.save(modelInfoPO);
-        modelInfoUtil.saveModel(modelInfoDto.getFile(), modelInfoDto.getName());
+        modelInfoUtil.saveModel(modelInfoDto.getModelFile(), modelInfoDto.getName());
+        if (modelInfoPO.getTrain() == "true") {
+            modelInfoUtil.saveScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
+        }
         return modelInfoUtil.convertPO2DTO(modelInfoPO);
     }
 

@@ -37,6 +37,9 @@ public class ModelInfoPO {
     @Field
     private String status;
 
+    @Field
+    private String train;
+
 //    @Field
 //    private MultipartFile file;
 

@@ -29,7 +29,11 @@ public class ModelInfoDTO {
 
     private String status = "normal";
 
-    private MultipartFile file;
+    private MultipartFile modelFile;
+
+    private String train;
+
+    private MultipartFile scriptFile;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date registerTimestamp;
