@@ -15,6 +15,30 @@ import java.util.Date;
 @Component
 public class ModelInfoUtil {
 
+    public String modelDir = ".\\modelDir";
+
+    public int saveModel(MultipartFile file, String fileName) {
+        if (file.isEmpty()) {
+            return -2;
+        }
+        File dest = new File(modelDir + "\\" + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest); // 保存文件
+            return 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public File getModel(String fileName) {
+        File file = new File(modelDir + "\\" + fileName);
+        return file;
+    }
+
     public ModelInfoPO convertDtoToPo(ModelInfoDTO modelInfoDto, Date timestamp) {
         ModelInfoPO modelInfoPO = new ModelInfoPO();
         modelInfoPO.setName(modelInfoDto.getName());
@@ -23,7 +47,6 @@ public class ModelInfoUtil {
         modelInfoPO.setInterval(modelInfoDto.getInterval());
         modelInfoPO.setTimeUnit(modelInfoDto.getTimeUnit());
         modelInfoPO.setOwner(modelInfoDto.getOwner());
-        modelInfoPO.setFile(modelInfoDto.getFile());
         return modelInfoPO;
     }
 
@@ -36,9 +59,7 @@ public class ModelInfoUtil {
         modelInfoDTO.setInterval(modelInfoPO.getInterval());
         modelInfoDTO.setTimeUnit(modelInfoPO.getTimeUnit());
         modelInfoDTO.setOwner(modelInfoPO.getOwner());
-        modelInfoDTO.setFile(modelInfoPO.getFile());
         return modelInfoDTO;
-
     }
 
     public static File multipartFileToFile(MultipartFile multiFile) {

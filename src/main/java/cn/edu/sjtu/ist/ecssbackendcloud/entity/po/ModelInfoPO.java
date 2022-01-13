@@ -33,8 +33,8 @@ public class ModelInfoPO {
     @Field
     private Integer interval;
 
-    @Field
-    private MultipartFile file;
+//    @Field
+//    private MultipartFile file;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date registerTimestamp;

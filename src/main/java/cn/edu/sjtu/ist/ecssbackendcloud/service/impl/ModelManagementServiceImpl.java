@@ -88,6 +88,7 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         }
         modelInfoPO = modelInfoUtil.convertDtoToPo(modelInfoDto, new Date());
         modelInfoDao.save(modelInfoPO);
+        modelInfoUtil.saveModel(modelInfoDto.getFile(), modelInfoDto.getName());
         return modelInfoUtil.convertPO2DTO(modelInfoPO);
     }
 
@@ -111,7 +112,7 @@ public class ModelManagementServiceImpl implements ModelManagementService {
 
         HttpPost httpPost = new HttpPost(ip + ':' + port + "/model");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addPart("file", new FileBody(modelInfoUtil.multipartFileToFile(modelInfoPO.getFile())));
+        builder.addPart("file", new FileBody(modelInfoUtil.getModel(modelInfoPO.getName())));
         httpPost.setEntity(builder.build());
 
         CloseableHttpResponse response = null;
@@ -125,7 +126,6 @@ public class ModelManagementServiceImpl implements ModelManagementService {
                 System.out.println("响应内容长度为:" + responseEntity.getContentLength());
                 System.out.println("响应内容为:" + EntityUtils.toString(responseEntity));
             }
-            modelInfoDao.save(modelInfoPO);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
