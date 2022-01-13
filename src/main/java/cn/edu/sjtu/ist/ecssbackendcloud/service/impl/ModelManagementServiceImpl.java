@@ -1,9 +1,12 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
+import cn.edu.sjtu.ist.ecssbackendcloud.dao.EdgeInfoDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.ModelInfoDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.IssueModelRequest;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelEdgeDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.PingInfoRequest;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.EdgeInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ModelInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ModelManagementService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.ModelInfoUtil;
@@ -28,9 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -41,6 +42,9 @@ public class ModelManagementServiceImpl implements ModelManagementService {
 
     @Autowired
     private ModelInfoDao modelInfoDao;
+
+    @Autowired
+    private EdgeInfoDao edgeInfoDao;
 
     @Override
     public List<ModelInfoDTO> getAllModelInfoByUser(String userId) {
@@ -143,5 +147,20 @@ public class ModelManagementServiceImpl implements ModelManagementService {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public List<ModelEdgeDTO> getModelEdgeList(String modelId) {
+        ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOById(modelId);
+        List<String> edgeIdList = modelInfoPO.getEdgeIdList();
+        List<ModelEdgeDTO> modelEdgeDTOList = new ArrayList<>();
+        for (String edgeId: edgeIdList) {
+            EdgeInfoPO edgeInfoPO = edgeInfoDao.findEdgeInfoPOById(edgeId);
+            ModelEdgeDTO modelEdgeDTO = new ModelEdgeDTO();
+            modelEdgeDTO.setName(edgeInfoPO.getName());
+            modelEdgeDTO.setId(edgeInfoPO.getId());
+            modelEdgeDTOList.add(modelEdgeDTO);
+        }
+        return modelEdgeDTOList;
     }
 }

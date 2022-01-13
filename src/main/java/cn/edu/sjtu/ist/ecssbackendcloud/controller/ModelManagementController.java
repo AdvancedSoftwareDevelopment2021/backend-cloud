@@ -2,6 +2,7 @@ package cn.edu.sjtu.ist.ecssbackendcloud.controller;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.IssueModelRequest;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelEdgeDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.EdgeManagementService;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ModelManagementService;
@@ -20,7 +21,7 @@ public class ModelManagementController {
     private ModelManagementService modelManagementService;
 
     @PostMapping()
-    public Result<ModelInfoDTO> insertModelInfo(@RequestBody ModelInfoDTO request) {
+    public Result<ModelInfoDTO> insertModelInfo(@ModelAttribute ModelInfoDTO request) {
         return ResultUtil.success(modelManagementService.addModel(request));
     }
 
@@ -56,6 +57,11 @@ public class ModelManagementController {
         String ip = issueModelRequest.getIp();
         String port = issueModelRequest.getPort();
         return ResultUtil.success(modelManagementService.issueModel(id, ip, port));
+    }
+
+    @GetMapping("/{id}/edge")
+    public Result<List<ModelEdgeDTO>> getModelEdge(@PathVariable String id) {
+        return ResultUtil.success(modelManagementService.getModelEdgeList(id));
     }
 
 }

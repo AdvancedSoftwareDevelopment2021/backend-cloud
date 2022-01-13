@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Document("ModelInfo")
@@ -33,9 +34,15 @@ public class ModelInfoPO {
     @Field
     private Integer interval;
 
+    @Field
+    private String status;
+
 //    @Field
 //    private MultipartFile file;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date registerTimestamp;
+
+    @Field
+    private List<String> edgeIdList;
 }

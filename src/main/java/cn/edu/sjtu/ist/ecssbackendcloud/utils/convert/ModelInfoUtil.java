@@ -1,16 +1,16 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.utils.convert;
 
+import cn.edu.sjtu.ist.ecssbackendcloud.dao.EdgeInfoDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDTO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.IssueModelRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelInfoDTO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.PingInfoRequest;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.EdgeInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ModelInfoPO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class ModelInfoUtil {
@@ -47,6 +47,7 @@ public class ModelInfoUtil {
         modelInfoPO.setInterval(modelInfoDto.getInterval());
         modelInfoPO.setTimeUnit(modelInfoDto.getTimeUnit());
         modelInfoPO.setOwner(modelInfoDto.getOwner());
+        modelInfoPO.setStatus(modelInfoDto.getStatus());
         return modelInfoPO;
     }
 
@@ -59,6 +60,7 @@ public class ModelInfoUtil {
         modelInfoDTO.setInterval(modelInfoPO.getInterval());
         modelInfoDTO.setTimeUnit(modelInfoPO.getTimeUnit());
         modelInfoDTO.setOwner(modelInfoPO.getOwner());
+        modelInfoDTO.setStatus(modelInfoPO.getStatus());
         return modelInfoDTO;
     }
 
