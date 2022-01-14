@@ -46,7 +46,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public Process insertProcess(Process process) throws RuntimeException {
-        if (processDao.findProcessByName(process.getName()) != null) {
+        if (processDao.findProcessByName(process.getName()).size() > 0) {
             throw new RuntimeException("该名称已存在");
         }
         processDao.createProcess(process);
@@ -147,8 +147,10 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     public Boolean issueProcess(String ip, String port, ProcessDTO processDTO) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-
-        HttpPost httpPost = new HttpPost("http://" + ip + ':' + port + "/process");
+        System.out.println(ip);
+        System.out.println(port);
+        HttpPost httpPost = new HttpPost(ip + ':' + port + "/process");
+        httpPost.addHeader("Content-Type", "application/json");
         String jsonString = JSON.toJSONString(processDTO);
         StringEntity entity = new StringEntity(jsonString, "UTF-8");
         httpPost.setEntity(entity);

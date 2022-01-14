@@ -115,7 +115,9 @@ public class ProcessController {
     }
 
     @PostMapping("/issue")
-    public Result<?> issueProcess(@ModelAttribute IssueProcessRequest issueProcessRequest) {
+    public Result<?> issueProcess(@RequestBody IssueProcessRequest issueProcessRequest) {
+        System.out.println(issueProcessRequest.getIp());
+        System.out.println(issueProcessRequest.getProcessDTO());
         Boolean result = processService.issueProcess(issueProcessRequest.getIp(), issueProcessRequest.getPort(),
                 issueProcessRequest.getProcessDTO());
         if (result == true) {

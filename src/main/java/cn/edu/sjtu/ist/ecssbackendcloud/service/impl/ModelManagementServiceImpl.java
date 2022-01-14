@@ -2,35 +2,27 @@ package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.EdgeInfoDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.ModelInfoDao;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.IssueModelRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelEdgeDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelInfoDTO;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.PingInfoRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.EdgeInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ModelInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ModelManagementService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.ModelInfoUtil;
-import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.ContentBody;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.File;
 import java.util.*;
 
 @Service
@@ -85,7 +77,7 @@ public class ModelManagementServiceImpl implements ModelManagementService {
     }
 
     @Override
-    public ModelInfoDTO addModel(ModelInfoDTO modelInfoDto) throws RuntimeException{
+    public ModelInfoDTO addModel(ModelInfoDTO modelInfoDto){
         ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOByName(modelInfoDto.getName());
         if (modelInfoPO != null) {
             throw new RuntimeException("该名称已存在");
@@ -94,8 +86,11 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         modelInfoDao.save(modelInfoPO);
         modelInfoUtil.saveModel(modelInfoDto.getModelFile(), modelInfoDto.getName());
         if (modelInfoPO.getTrain() == "true") {
-            modelInfoUtil.saveScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
+            modelInfoUtil.saveTrainScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
+//            modelInfoUtil.saveTrainScript(modelInfoDto.getTrainScriptFile(), modelInfoDto.getName());
         }
+//        modelInfoUtil.savePredictScript(modelInfoDto.getPredictScriptFile(), modelInfoDto.getName());
+        modelInfoUtil.savePredictScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
         return modelInfoUtil.convertPO2DTO(modelInfoPO);
     }
 
@@ -118,12 +113,13 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOById(modelId);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost httpPost = new HttpPost("http://" + edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort() + "/model");
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addPart("file", new FileBody(modelInfoUtil.getModel(modelInfoPO.getName())));
+        HttpPost httpPost = new HttpPost(edgeInfoPO.getIp() + ":" + edgeInfoPO.getPort() + "/ml/" + modelInfoPO.getName());
+//        HttpPost httpPost = new HttpPost("http://" + edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort() + "/model");
+//        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+//        builder.addPart("file", new FileBody(modelInfoUtil.getModel(modelInfoPO.getName())));
 //        httpPost.setEntity(builder.build());
-        StringEntity entity = new StringEntity(modelInfoPO.getName(), "UTF-8");
-        httpPost.setEntity(entity);
+//        StringEntity entity = new StringEntity(modelInfoPO.getName(), "UTF-8");
+//        httpPost.setEntity(entity);
         CloseableHttpResponse response = null;
         try {
             // 由客户端执行(发送)Post请求

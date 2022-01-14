@@ -23,11 +23,7 @@ public class ModelManagementController {
 
     @PostMapping()
     public Result<?> insertModelInfo(@ModelAttribute ModelInfoDTO request) {
-        try {
-            return ResultUtil.success(modelManagementService.addModel(request));
-        } catch (RuntimeException exception) {
-            return ResultUtil.failure("该名称已存在", HttpStatus.EXPECTATION_FAILED.value());
-        }
+        return ResultUtil.success(modelManagementService.addModel(request));
     }
 
     @DeleteMapping("/{id}")

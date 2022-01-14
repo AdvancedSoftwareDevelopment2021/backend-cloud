@@ -35,6 +35,10 @@ public class ModelInfoDTO {
 
     private MultipartFile scriptFile;
 
+    private MultipartFile trainScriptFile;
+
+    private MultipartFile predictScriptFile;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS", timezone = "GMT+8")
     private Date registerTimestamp;
 }
