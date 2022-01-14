@@ -86,6 +86,7 @@ public class ModelInfoUtil {
         modelInfoDTO.setTimeUnit(modelInfoPO.getTimeUnit());
         modelInfoDTO.setOwner(modelInfoPO.getOwner());
         modelInfoDTO.setStatus(modelInfoPO.getStatus());
+        modelInfoDTO.setTrain(modelInfoPO.getTrain());
         return modelInfoDTO;
     }
 
