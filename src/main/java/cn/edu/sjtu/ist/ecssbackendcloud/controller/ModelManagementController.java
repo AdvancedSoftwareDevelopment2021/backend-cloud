@@ -59,7 +59,6 @@ public class ModelManagementController {
         } else {
             return ResultUtil.failure("This model has been bound to the edge", -1);
         }
-
     }
 
     @GetMapping("/{id}/edge")

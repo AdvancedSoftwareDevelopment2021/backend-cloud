@@ -4,6 +4,7 @@ import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.ProcessRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Status;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.IssueProcessRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ProcessService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.BpmnUtils;
@@ -106,4 +107,16 @@ public class ProcessController {
         processService.updateProcessBpmn(id, file);
         return ResultUtil.success();
     }
+
+    @PostMapping("/issue")
+    public Result<?> issueProcess(@ModelAttribute IssueProcessRequest issueProcessRequest) {
+        Boolean result = processService.issueProcess(issueProcessRequest.getIp(), issueProcessRequest.getPort(),
+                issueProcessRequest.getProcessDTO());
+        if (result == true) {
+            return ResultUtil.success(true);
+        } else {
+            return ResultUtil.failure("Fail to issue the process to edge end.", -1);
+        }
+    }
+
 }

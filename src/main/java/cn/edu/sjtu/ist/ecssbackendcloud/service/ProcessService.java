@@ -3,6 +3,7 @@ package cn.edu.sjtu.ist.ecssbackendcloud.service;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
 
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -38,5 +39,7 @@ public interface ProcessService {
     List<Process> findOwnedProcesses(String owner);
 
     String findBpmn(String processId);
+
+    Boolean issueProcess(String ip, String port, ProcessDTO processDTO);
 
 }
