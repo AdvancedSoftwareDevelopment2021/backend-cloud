@@ -4,6 +4,7 @@ import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.ProcessRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Process;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Status;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.process.Step;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.IssueProcessRequest;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ProcessDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.ProcessService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.BpmnUtils;
@@ -13,6 +14,7 @@ import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.ResultUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +50,12 @@ public class ProcessController {
         dto.setStep(Step.BPMN);
         dto.setStatus(Status.CONSTRUCTING);
         Process process = processUtil.convertDTO2Domain(dto);
-        return ResultUtil.success(processService.insertProcess(process));
+        try {
+            return ResultUtil.success(processService.insertProcess(process));
+        } catch (RuntimeException exception) {
+            return ResultUtil.failure("该名称已存在", HttpStatus.EXPECTATION_FAILED.value());
+        }
+
     }
 
     @DeleteMapping(value = "/{id}")
@@ -106,4 +113,18 @@ public class ProcessController {
         processService.updateProcessBpmn(id, file);
         return ResultUtil.success();
     }
+
+    @PostMapping("/issue")
+    public Result<?> issueProcess(@RequestBody IssueProcessRequest issueProcessRequest) {
+        System.out.println(issueProcessRequest.getIp());
+        System.out.println(issueProcessRequest.getProcessDTO());
+        Boolean result = processService.issueProcess(issueProcessRequest.getIp(), issueProcessRequest.getPort(),
+                issueProcessRequest.getProcessDTO());
+        if (result == true) {
+            return ResultUtil.success(true);
+        } else {
+            return ResultUtil.failure("Fail to issue the process to edge end.", HttpStatus.EXPECTATION_FAILED.value());
+        }
+    }
+
 }

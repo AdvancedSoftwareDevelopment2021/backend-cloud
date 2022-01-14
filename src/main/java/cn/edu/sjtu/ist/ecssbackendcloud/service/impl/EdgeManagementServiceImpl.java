@@ -1,11 +1,13 @@
 package cn.edu.sjtu.ist.ecssbackendcloud.service.impl;
 
 import cn.edu.sjtu.ist.ecssbackendcloud.dao.EdgeInfoDao;
+import cn.edu.sjtu.ist.ecssbackendcloud.dao.ModelInfoDao;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.domain.EdgeStatus;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.EdgeInfoDTO;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.ModelInfoDTO;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.PingInfoRequest;
-import cn.edu.sjtu.ist.ecssbackendcloud.entity.dto.Response;
 import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.EdgeInfoPO;
+import cn.edu.sjtu.ist.ecssbackendcloud.entity.po.ModelInfoPO;
 import cn.edu.sjtu.ist.ecssbackendcloud.service.EdgeManagementService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.convert.EdgeInfoUtil;
 import com.alibaba.fastjson.JSON;
@@ -32,6 +34,9 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
 
     @Autowired
     private EdgeInfoDao edgeInfoDao;
+
+    @Autowired
+    private ModelInfoDao modelInfoDao;
 
     @Override
     public List<EdgeInfoDTO> getAllEdgeInfoByUser(String userId) {
@@ -69,6 +74,12 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
             throw new RuntimeException("不存在该边缘端节点");
         }
         edgeInfoDao.deleteEdgeInfoPOById(EdgeId);
+
+        List<ModelInfoPO> modelInfoPOS = modelInfoDao.findAll();
+        for (ModelInfoPO po : modelInfoPOS) {
+            po.getEdgeIdList().remove(EdgeId);
+            modelInfoDao.save(po);
+        }
     }
 
     @Override
@@ -122,7 +133,7 @@ public class EdgeManagementServiceImpl implements EdgeManagementService {
             HttpEntity responseEntity = response.getEntity();
 
             if (responseEntity != null) {
-                System.out.println("响应内容长度为:" + responseEntity.getContentLength());
+//                System.out.println("响应内容长度为:" + responseEntity.getContentLength());
                 System.out.println("响应内容为:" + EntityUtils.toString(responseEntity));
             }
             edgeInfoPO.setStatus(EdgeStatus.ONLINE);
