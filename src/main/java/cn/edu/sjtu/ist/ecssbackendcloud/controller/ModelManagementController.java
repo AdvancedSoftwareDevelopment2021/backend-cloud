@@ -9,6 +9,7 @@ import cn.edu.sjtu.ist.ecssbackendcloud.service.ModelManagementService;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.Result;
 import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +22,12 @@ public class ModelManagementController {
     private ModelManagementService modelManagementService;
 
     @PostMapping()
-    public Result<ModelInfoDTO> insertModelInfo(@ModelAttribute ModelInfoDTO request) {
-        return ResultUtil.success(modelManagementService.addModel(request));
+    public Result<?> insertModelInfo(@ModelAttribute ModelInfoDTO request) {
+        try {
+            return ResultUtil.success(modelManagementService.addModel(request));
+        } catch (RuntimeException exception) {
+            return ResultUtil.failure("该名称已存在", HttpStatus.EXPECTATION_FAILED.value());
+        }
     }
 
     @DeleteMapping("/{id}")

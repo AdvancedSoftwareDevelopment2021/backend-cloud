@@ -45,7 +45,10 @@ public class ProcessServiceImpl implements ProcessService {
     private ProcessDao processDao;
 
     @Override
-    public Process insertProcess(Process process) {
+    public Process insertProcess(Process process) throws RuntimeException {
+        if (processDao.findProcessByName(process.getName()) != null) {
+            throw new RuntimeException("该名称已存在");
+        }
         processDao.createProcess(process);
         log.info("插入流程成功!");
         return processDao.findProcessByName(process.getName()).get(0);

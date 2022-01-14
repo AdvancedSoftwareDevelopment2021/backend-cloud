@@ -9,13 +9,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 @Component
 public class ModelInfoUtil {
 
-    public String modelDir = ".\\mlDir";
+    public String modelDir;
+
+    public ModelInfoUtil() throws IOException {
+        File tmp = new File("");
+        modelDir = tmp.getCanonicalPath() + "\\mlDir";
+    }
 
     public int saveScript(MultipartFile file, String fileName) {
         if (file.isEmpty()) {

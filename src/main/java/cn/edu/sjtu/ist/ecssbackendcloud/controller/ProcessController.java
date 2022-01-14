@@ -14,6 +14,7 @@ import cn.edu.sjtu.ist.ecssbackendcloud.utils.response.ResultUtil;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,7 +50,12 @@ public class ProcessController {
         dto.setStep(Step.BPMN);
         dto.setStatus(Status.CONSTRUCTING);
         Process process = processUtil.convertDTO2Domain(dto);
-        return ResultUtil.success(processService.insertProcess(process));
+        try {
+            return ResultUtil.success(processService.insertProcess(process));
+        } catch (RuntimeException exception) {
+            return ResultUtil.failure("该名称已存在", HttpStatus.EXPECTATION_FAILED.value());
+        }
+
     }
 
     @DeleteMapping(value = "/{id}")
@@ -115,7 +121,7 @@ public class ProcessController {
         if (result == true) {
             return ResultUtil.success(true);
         } else {
-            return ResultUtil.failure("Fail to issue the process to edge end.", -1);
+            return ResultUtil.failure("Fail to issue the process to edge end.", HttpStatus.EXPECTATION_FAILED.value());
         }
     }
 

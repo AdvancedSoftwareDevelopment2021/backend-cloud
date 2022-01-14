@@ -85,7 +85,7 @@ public class ModelManagementServiceImpl implements ModelManagementService {
     }
 
     @Override
-    public ModelInfoDTO addModel(ModelInfoDTO modelInfoDto) {
+    public ModelInfoDTO addModel(ModelInfoDTO modelInfoDto) throws RuntimeException{
         ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOByName(modelInfoDto.getName());
         if (modelInfoPO != null) {
             throw new RuntimeException("该名称已存在");
@@ -121,8 +121,9 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         HttpPost httpPost = new HttpPost("http://" + edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort() + "/model");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("file", new FileBody(modelInfoUtil.getModel(modelInfoPO.getName())));
-        httpPost.setEntity(builder.build());
-
+//        httpPost.setEntity(builder.build());
+        StringEntity entity = new StringEntity(modelInfoPO.getName(), "UTF-8");
+        httpPost.setEntity(entity);
         CloseableHttpResponse response = null;
         try {
             // 由客户端执行(发送)Post请求
