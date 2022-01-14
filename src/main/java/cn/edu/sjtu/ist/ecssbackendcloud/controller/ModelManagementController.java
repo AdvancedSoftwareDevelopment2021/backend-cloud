@@ -51,7 +51,7 @@ public class ModelManagementController {
         return ResultUtil.success(modelManagementService.getModelInfoById(id));
     }
 
-    @GetMapping("/bind")
+    @PostMapping("/bind/{id}/{edgeId}")
     public Result<?> bindModel(@PathVariable String id, @PathVariable String edgeId) {
         Boolean result = modelManagementService.bindModelEdge(id, edgeId);
         if (result == true) {

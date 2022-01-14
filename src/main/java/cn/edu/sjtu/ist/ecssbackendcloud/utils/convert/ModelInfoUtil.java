@@ -42,6 +42,7 @@ public class ModelInfoUtil {
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdirs();
         }
+        System.out.println(dest);
         try {
             file.transferTo(dest); // 保存文件
             return 0;
@@ -88,7 +89,6 @@ public class ModelInfoUtil {
         // 获取文件后缀
         String prefix = fileName.substring(fileName.lastIndexOf("."));
         // 若需要防止生成的临时文件重复,可以在文件名后添加随机码
-
         try {
             File file = File.createTempFile(fileName, prefix);
             multiFile.transferTo(file);

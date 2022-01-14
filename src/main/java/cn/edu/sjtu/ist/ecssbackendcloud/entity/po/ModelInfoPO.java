@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -47,5 +48,5 @@ public class ModelInfoPO {
     private Date registerTimestamp;
 
     @Field
-    private List<String> edgeIdList;
+    private List<String> edgeIdList = new ArrayList<>();
 }
