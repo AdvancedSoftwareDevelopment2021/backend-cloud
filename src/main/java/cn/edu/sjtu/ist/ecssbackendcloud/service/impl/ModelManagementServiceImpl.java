@@ -118,7 +118,7 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         ModelInfoPO modelInfoPO = modelInfoDao.findModelInfoPOById(modelId);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost httpPost = new HttpPost(edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort() + "/model");
+        HttpPost httpPost = new HttpPost("http://" + edgeInfoPO.getIp() + ':' + edgeInfoPO.getPort() + "/model");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("file", new FileBody(modelInfoUtil.getModel(modelInfoPO.getName())));
         httpPost.setEntity(builder.build());

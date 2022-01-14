@@ -145,7 +145,7 @@ public class ProcessServiceImpl implements ProcessService {
     public Boolean issueProcess(String ip, String port, ProcessDTO processDTO) {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost httpPost = new HttpPost(ip + ':' + port + "/process");
+        HttpPost httpPost = new HttpPost("http://" + ip + ':' + port + "/process");
         String jsonString = JSON.toJSONString(processDTO);
         StringEntity entity = new StringEntity(jsonString, "UTF-8");
         httpPost.setEntity(entity);
