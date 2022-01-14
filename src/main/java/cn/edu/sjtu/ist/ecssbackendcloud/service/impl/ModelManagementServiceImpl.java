@@ -86,11 +86,11 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         modelInfoDao.save(modelInfoPO);
         modelInfoUtil.saveModel(modelInfoDto.getModelFile(), modelInfoDto.getName());
         if (modelInfoPO.getTrain() == "true") {
-            modelInfoUtil.saveTrainScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
-//            modelInfoUtil.saveTrainScript(modelInfoDto.getTrainScriptFile(), modelInfoDto.getName());
+//            modelInfoUtil.saveTrainScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
+            modelInfoUtil.saveTrainScript(modelInfoDto.getTrainScriptFile(), modelInfoDto.getName());
         }
-//        modelInfoUtil.savePredictScript(modelInfoDto.getPredictScriptFile(), modelInfoDto.getName());
-        modelInfoUtil.savePredictScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
+        modelInfoUtil.savePredictScript(modelInfoDto.getPredictScriptFile(), modelInfoDto.getName());
+//        modelInfoUtil.savePredictScript(modelInfoDto.getScriptFile(), modelInfoDto.getName());
         return modelInfoUtil.convertPO2DTO(modelInfoPO);
     }
 
