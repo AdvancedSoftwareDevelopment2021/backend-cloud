@@ -184,7 +184,7 @@ public class ModelManagementServiceImpl implements ModelManagementService {
         if (edgeIdList.contains(edgeId)) {
             return false;
         }
-        modelInfoPO.setEdgeIdList(edgeIdList);
+        modelInfoPO.getEdgeIdList().add(edgeId);
         modelInfoDao.save(modelInfoPO);
         issueModel(id, edgeId);
         return true;
